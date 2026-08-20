@@ -570,7 +570,11 @@
               var bytes=new Uint8Array(raw.length);
               for(var i=0;i<raw.length;i++){bytes[i]=raw.charCodeAt(i)^stream[i];}
               var el=document.querySelector('[data-vault="'+k+'"]');
-              if(el)el.innerHTML=new TextDecoder().decode(bytes);
+              if(el){
+                var html=new TextDecoder().decode(bytes);
+                // 对章节 vault 用 outerHTML 替换占位 div，使解密出的 .chap 成为 grid 直接子项
+                el.outerHTML=html;
+              }
             });
           });
         });
