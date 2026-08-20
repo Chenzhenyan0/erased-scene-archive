@@ -407,6 +407,10 @@
       <div style="font-family:var(--mono);font-size:12px;letter-spacing:.25em;color:var(--gold);margin-bottom:8px">RELEASE MILESTONE · 发布里程碑</div>
       <!-- 起点小说地址待填：把下面 href="#" 改成实际链接 -->
       <p style="margin:0;font-size:17px;color:var(--paper)"><b class="red">09-23</b>　在起点中文网发布第一章　·　<a id="qidianLink" href="#" style="color:var(--gold);border-bottom:1px dashed var(--gold)">前往阅读 ↗</a></p>
+      <div class="reserve-wrap" style="margin-top:16px">
+        <a id="reserveBtn2" class="reserve-btn">🔔 预约上线提醒</a>
+        <div class="reserve-count">已有 <b id="reserveCount2">—</b> 人预约上线提醒</div>
+      </div>
     </div>
   </section>
 
@@ -439,6 +443,10 @@
       <div class="ghint">解封后率先公开前三章 · 余下内容随连载逐章解密</div>
       <div id="tzWarn" style="display:none;margin-top:14px;color:#c9544a;font-size:12px;letter-spacing:.12em">&#9888; 检测到本机时间与授时中心存在偏差，已按授时中心计时</div>
       <div style="margin-top:34px"><a id="adminEntry" style="display:inline-block;cursor:pointer;color:var(--gold);font-size:13px;letter-spacing:.25em;border:1px solid var(--gold);border-radius:4px;padding:10px 24px;text-decoration:none;box-shadow:0 0 18px rgba(201,168,106,.18)">⚿ 档案管理员入口</a></div>
+      <div class="reserve-wrap">
+        <a id="reserveBtn" class="reserve-btn">🔔 预约上线提醒</a>
+        <div class="reserve-count">已有 <b id="reserveCount">—</b> 人预约上线提醒</div>
+      </div>
     </div>
   </div>
 
@@ -599,7 +607,32 @@
       if(dd)dd.textContent=d;if(hh)hh.textContent=pad(h);if(mm)mm.textContent=pad(m);if(ss)ss.textContent=pad(s);
       setTimeout(tick,1000);
     }
+    // ---- 预约上线提醒：GitHub star 数作实时预约人数（含本机容错） ----
+    function loadReserve(){
+      function show(n){var a=document.getElementById('reserveCount');if(a)a.textContent=n;var b=document.getElementById('reserveCount2');if(b)b.textContent=n;}
+      fetch('https://api.github.com/repos/Chenzhenyan0/erased-scene-archive',{cache:'no-store'})
+        .then(function(r){return r.json();})
+        .then(function(d){var n=(d&&typeof d.stargazers_count==='number')?d.stargazers_count:null;if(n===null)throw new Error('nocount');show(n);})
+        .catch(function(){var local=parseInt(localStorage.getItem('reserve_local')||'0',10)||0;show(local>0?local:'—');});
+    }
+    function bindReserve(){
+      function setup(btnId){
+        var btn=document.getElementById(btnId); if(!btn)return;
+        if(localStorage.getItem('reserve_done')==='1'){btn.textContent='✓ 已预约';btn.classList.add('done');}
+        btn.addEventListener('click',function(){
+          window.open('https://github.com/Chenzhenyan0/erased-scene-archive','_blank');
+          if(localStorage.getItem('reserve_done')==='1')return;
+          localStorage.setItem('reserve_done','1');
+          var local=parseInt(localStorage.getItem('reserve_local')||'0',10)+1;
+          localStorage.setItem('reserve_local',String(local));
+          btn.textContent='✓ 已预约';btn.classList.add('done');
+          ['reserveCount','reserveCount2'].forEach(function(id){var e=document.getElementById(id);if(e){var cur=parseInt(String(e.textContent).replace(/[^0-9]/g,''),10)||0;e.textContent=cur+1;}});
+        });
+      }
+      setup('reserveBtn');setup('reserveBtn2');
+    }
     // ---- 启动 ----
+    loadReserve(); bindReserve(); setInterval(loadReserve,30000);
     var e1=document.getElementById('adminEntry'),e2=document.getElementById('adminEntry2');
     if(e1)e1.addEventListener('click',unlock);
     if(e2)e2.addEventListener('click',unlock);
