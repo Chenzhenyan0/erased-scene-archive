@@ -292,14 +292,12 @@
 </style>
 <script>
   (function(){
-    var q=location.search;
-    var preview=/[?&]preview=1/.test(q);
-    var forceLaunch=/[?&]view=launch/.test(q);
+    var authed=false;
+    try{authed=sessionStorage.getItem('archive_authed')==='1';}catch(e){}
     var target=new Date('2026-09-23T00:00:00');
-    var past=target-new Date()<=0;
-    if(preview){ /* 全档案：用于作者核验 */ }
-    else if(past || forceLaunch){ document.documentElement.classList.add('partial'); }
-    else { document.documentElement.classList.add('sealed'); }
+    if(authed){document.documentElement.classList.add('authed');}
+    else if(target-new Date()<=0){document.documentElement.classList.add('partial');}
+    else{document.documentElement.classList.add('sealed');}
   })();
 </script>
 </head>
@@ -341,154 +339,13 @@
   </section>
 
   <!-- 六卷 -->
-  <section id="volumes">
-    <div class="sec-head">
-      <span class="sec-no">01</span>
-      <span class="sec-title">六卷·被改写的历史<span class="en">SIX VOLUMES / SIX REWRITES</span></span>
-    </div>
-    <div class="vol-grid">
-      <div class="vol reveal"><div class="dot"></div><div class="v-body">
-        <h3><span class="idx">卷壹</span>钜鹿疑云</h3>
-        <p>从高二一班开学第一课切入。历史老师讲述黄巾起义时，投影仪里起义军画像中的祟当众动起来，只有三兄弟看得见。放学后三人目击祟的暴行并向阿瑞斯铠警报案，却被归档为幻觉；张角头昏倒地，在「未被记录的历史」中遇见前世张角，得知起义真正原因与道术、术袍的来处。三人破译第一桩被改写的历史——黄巾起义那页，确立「每一页被改写的历史＝祟的下一处作案预告」。张角获得第一段道术残篇。卷末三人合力拦截第一只祟，但狤……</p>
-      </div></div>
-      <div class="vol reveal"><div class="dot"></div><div class="v-body">
-        <h3><span class="idx">卷贰</span>查无此案</h3>
-        <p>系统战全面展开。张宝以录屏、截图、单号与舆情窗口为兄弟们的证词打通「报案—立案」通道，屡被「查无此案」归档驳回；张角在档案层追读第二、三处被改写的历史——阿瑞斯史册中皮尔王时代的旧页，发现狤在系统性重写阿瑞斯正史，把祟的每一次杀戮伪装成理所当然的过去。张梁与两位兄长并肩迎战，三人正式形成「考据—留证—拦截」的作战链。卷末狤借戱之身当众抹掉一整卷史书并发布「历史修正公告」，将三兄弟列为通缉对象。</p>
-      </div></div>
-      <div class="vol reveal"><div class="dot"></div><div class="v-body">
-        <h3><span class="idx">卷叁</span>被篡改的王朝</h3>
-        <p>三兄弟潜入阿瑞斯宫廷与档案层，追查戱被附身的实证；道术残篇集齐大半，术袍部件陆续成形。其间揭示祟的真正来源：狤为域外邪魔，借戱之躯篡改史册、实施暴政。张角在「揭穿狤」与「亲手杀死被附身的活人戱」之间被反复拉扯，越接近真相越被当作编造者。卷末三人拿到狤操控戱的第一件物证，但戱濒临被彻底吞噬，是否动手成为必须作出的抉择。</p>
-      </div></div>
-      <div class="vol reveal"><div class="dot"></div><div class="v-body">
-        <h3><span class="idx">卷肆</span>黄天当立</h3>
-        <p>前世张角所托道术全貌展开：太平道三十六方、苍天已死黄天当立——当年黄巾军正是以道术封印了狤的前身，如今封印松动，历史才会被大段改写。三兄弟集齐道术残篇，获得完整的术袍（不属于阿瑞斯科技的异界铠甲），第一次能与祟军团正面抗衡，反击战全面打响。卷末狤撕破伪装，宣告要借戱之躯让阿瑞斯的历史「清零重来」。</p>
-      </div></div>
-      <div class="vol reveal"><div class="dot"></div><div class="v-body">
-        <h3><span class="idx">卷伍</span>最后的道术</h3>
-        <p>决战前奏。随着战斗深入，三兄弟逐渐意识到要彻底消灭邪魔，必须牺牲自我、逆转时空；张角在「未被改写的历史」的最后一页，读出黄巾起义真正的目的与代价，以及道术最终要兑换的牺牲。兄弟三人各自完成守护彼此与黎民苍生的信念准备（情感重心在兄弟情与师生、苍生之间，不设爱情线）。卷末，与狤、戱的最后一战开启。</p>
-      </div></div>
-      <div class="vol reveal"><div class="dot"></div><div class="v-body">
-        <h3><span class="idx">卷陆</span>归零</h3>
-        <p>终局对决。三兄弟在与邪魔狤、戱的最终对决中选择牺牲自我，以道术逆转阿瑞斯时空，将邪魔的破坏力限制在时空裂缝中，拯救黎民苍生。当他们从时空紊流中消失时，阿瑞斯的时空回到历史老师在高二一班讲述黄巾起义的时间节点——教科书中的黄巾起义历史节点已经消失，高二一班的师生对张角三兄弟的记忆也随之消失，仿佛他们从未存在。全书在史册永远空缺的一页与无名英雄的余响中收束。</p>
-      </div></div>
-    </div>
-  </section>
+  <section id="volumes"><div data-vault="volumes" style="min-height:120px"></div></section>
 
   <!-- 群像 -->
-  <section id="cast">
-    <div class="sec-head">
-      <span class="sec-no">02</span>
-      <span class="sec-title">群像·在册人物<span class="en">DOSSIER / PERSONS OF INTEREST</span></span>
-    </div>
-    <div class="cast">
-      <div class="char reveal">
-        <div class="role">PROTAGONIST · 考据与传承</div>
-        <h4>张角</h4><div class="en">ZHANG JIAO</div>
-        <div class="field"><b>外貌</b>高二生身形，眉目端正，常戴细框眼镜，校服领口别着历史课代表徽章；说话前习惯先推一下眼镜。</div>
-        <div class="field"><b>背景</b>高二一班班长兼历史课代表。负责考据、破译史册、<span class="mask">接住道术传承</span>。</div>
-        <div class="field"><b>当前状态</b>已获得第一段道术残篇，能感知「被改写历史」的笔迹差异，可用残篇之力<span class="mask">短暂逼退祟</span>。</div>
-      </div>
-      <div class="char reveal">
-        <div class="role">SUPPORTING · 周旋与留证</div>
-        <h4>张宝</h4><div class="en">ZHANG BAO</div>
-        <div class="field"><b>外貌</b>比大哥矮半个头，圆脸，笑容讨喜，校服袖口总是挽起，手机不离手。</div>
-        <div class="field"><b>背景</b>开局与兄长同校同班，事发后负责对外周旋与<span class="mask">留证</span>。</div>
-        <div class="field"><b>当前状态</b>建立「待办条目」系统，擅长信息检索、备份、单号证据链；书包里常备证物袋、干扰器、铁丝等<span class="mask">非合规工具</span>。</div>
-      </div>
-      <div class="char reveal">
-        <div class="role">SUPPORTING · 现场反应</div>
-        <h4>张梁</h4><div class="en">ZHANG LIANG</div>
-        <div class="field"><b>外貌</b>身形最结实，跑得快，校服袖子总被扯破一角，手腕上缠着旧护腕。</div>
-        <div class="field"><b>背景</b>开局为第一个在画像里看见祟动起来的目击者，负责<span class="mask">现场反应</span>。</div>
-        <div class="field"><b>当前状态</b>已被祟两次擦中，分别丢失「一句话」与「小学春游路线」等记忆，身体出现<span class="mask">反噬性虚脱</span>。</div>
-      </div>
-      <div class="char reveal">
-        <div class="role">SUPPORTING · 历史残影</div>
-        <h4>前世张角</h4><div class="en">PAST-LIFE ZHANG JIAO</div>
-        <div class="field"><b>外貌</b>身披苍黄术袍（后世术袍原形），面容清癯，左臂以黄巾系缚，衣角有被火燎过的焦痕。</div>
-        <div class="field"><b>背景</b>已逝之人，以历史残影显形；第 2 章首次现身，向现世张角揭示<span class="mask">未被记录的真相</span>。</div>
-        <div class="field"><b>已揭示</b>黄巾起义真正起因是反抗狤一派邪魔；道术残篇每破译一桩被改写历史解锁一段；术袍成形后可正面抗衡祟军团；要揭穿狤必须亲手了结被附身的活人戱。</div>
-      </div>
-      <div class="char reveal">
-        <div class="role">ANTAGONIST · 域外邪魔</div>
-        <h4>狤</h4><div class="en">JÍ</div>
-        <div class="field"><b>外貌</b>本体无固定形貌，常以一缕黑雾缠绕戱右腕显现；雾中偶浮獠牙与环目。</div>
-        <div class="field"><b>背景</b>已附身戱并执掌史册改写，把暴政伪装成民众习以为常的过去；<span class="mask">黄巾起义那页是唯一没改完的地方</span>。</div>
-      </div>
-      <div class="char reveal">
-        <div class="role">ANTAGONIST · 被附身者</div>
-        <h4>戱</h4><div class="en">XÌ</div>
-        <div class="field"><b>外貌</b>高挑贵气，金发中分，常着深色统治者礼服，右腕系一条黑缎掩住狤的寄居处；双目平静到近乎空茫。</div>
-        <div class="field"><b>背景</b>已被狤附身，施行暴政而被史册美化为合法；本我意志<span class="mask">沉睡</span>，第 2 章起成为三兄弟盯上的「揭穿对象」。</div>
-      </div>
-      <div class="char reveal">
-        <div class="role">ENFORCER · 幽冥魔</div>
-        <h4>祟</h4><div class="en">SUÌ</div>
-        <div class="field"><b>外貌</b>一团墨色的幽冥魔形，行动无声，颚部可张开成咬住记忆的空腔；在画像中现形时，是唯一不合比例的扭曲黑影。</div>
-        <div class="field"><b>背景</b>狤麾下的普通执行者，在三兄弟报案中被称作幽冥魔。负责在被改写的历史现场作案，随后由假象系统将其抹成<span class="mask">理所当然的过去</span>。</div>
-      </div>
-      <div class="char reveal">
-        <div class="role">MENTOR · 师长</div>
-        <h4>历史老师（沈老师）</h4><div class="en">THE HISTORY TEACHER</div>
-        <div class="field"><b>外貌</b>花白鬓角，戴老花镜，指节常有粉笔灰，教案边角贴满旧史复印页。</div>
-        <div class="field"><b>背景</b>开学第一课讲黄巾起义；对张角「书上没写的」回答表现出某种确认式沉默，<span class="mask">疑似知晓部分真相</span>。</div>
-      </div>
-      <div class="char reveal">
-        <div class="role">GREY · 体制内暗线</div>
-        <h4>秦述</h4><div class="en">QIN SHU</div>
-        <div class="field"><b>外貌</b>标准阿瑞斯铠警制服，面甲常掀开，眼角有旧伤，习惯把笔录册立在胸口挡镜头。</div>
-        <div class="field"><b>背景</b>第 2 章受理三兄弟报案并归档为「查无此案」；三年前是王城卫队随队记录员（直属皮尔王血裔）；第 5 章透露碑座封印、太平道「逆龙」云纹、旧档库地址，立场暧昧，可能是<span class="mask">体制内的暗线援助者</span>。</div>
-      </div>
-      <div class="char reveal">
-        <div class="role">VICTIM · 第一例人证</div>
-        <h4>陈屿</h4><div class="en">CHEN YU</div>
-        <div class="field"><b>背景</b>插班生，第 1 章被祟咬掉「讨厌历史」及「不吃甜排骨」等记忆，成为第一起可验证的<span class="mask">受害案例</span>。</div>
-      </div>
-    </div>
-  </section>
+  <section id="cast"><div data-vault="cast" style="min-height:120px"></div></section>
 
   <!-- 法则 -->
-  <section id="laws">
-    <div class="sec-head">
-      <span class="sec-no">03</span>
-      <span class="sec-title">法则·世界运转的暗码<span class="en">WORLD RULES / ENCRYPTED</span></span>
-    </div>
-    <div class="law reveal">
-      <div class="code">RULE-00 · CORE_HOOK</div>
-      <h4>核心世界钩子</h4>
-      <p>阿瑞斯之外，狤借戱之躯改写史册，把祟的每一次杀戮伪装成理所当然的过去；<span class="red">黄巾起义那页是唯一一处它没来得及改完的地方</span>。</p>
-    </div>
-    <div class="law reveal">
-      <div class="code">RULE-01 · REWRITE</div>
-      <h4>史册改写规则</h4>
-      <p>狤每次改写史册必须对应一次祟的作案（杀戮或吞噬记忆），改写后现代人的记忆与物证同步失效；只有张角三兄弟因前世印记能看到「未改完」的痕迹。</p>
-    </div>
-    <div class="law reveal">
-      <div class="code">RULE-02 · RESIDUE</div>
-      <h4>物证残留规则</h4>
-      <p>改写无法抹除「作案现场的原物」（如祟咬穿记忆时留下的物理痕迹、碑石碎片、白布拓片等），这是三兄弟可追查的锚点。</p>
-    </div>
-    <div class="law reveal">
-      <div class="code">RULE-03 · MARK</div>
-      <h4>前世印记规则</h4>
-      <p>三兄弟与东汉黄巾领袖存在灵魂对应，故对被篡改历史有免疫感知，也是唯一能接住道术与术袍的人。</p>
-    </div>
-    <div class="law reveal">
-      <div class="code">RULE-04 · POWER</div>
-      <h4>力量体系</h4>
-      <p>两系并行：阿瑞斯科技系（铠甲、铠警）与异界道术系（术袍、道术残篇）。三兄弟走道术系，专克祟；每破译一桩被改写的史册即获得一段道术残篇，战力与破译进度同步增长。</p>
-    </div>
-    <div class="law reveal">
-      <div class="code">RULE-05 · HISTORY</div>
-      <h4>历史沿革</h4>
-      <p>真实黄巾起义的动机是反抗操纵朝廷的域外邪魔，被官方史册抹黑为「妖道造反」；每处被改写的黄巾史页对应一次祟的作案预告，破译一处即预判下一处。末章逆转时空后，黄巾起义从教科书彻底消失，高二一班师生对三兄弟的记忆也随之消失。</p>
-    </div>
-    <div class="law reveal">
-      <div class="code">RULE-06 · LOCATIONS</div>
-      <h4>关键场域</h4>
-      <p>市立第一高中（高二一班）· 市立第一高中档案室 · 学校机房 · 阿瑞斯铠警分局舆情窗口 · 阿瑞斯铠警总局及旧档库 · 市图书馆广场 / 阿瑞斯建城碑 · 阿瑞斯王庭（戱的宫闱）· 未被记录的历史（意识交接层）</p>
-    </div>
-  </section>
+  <section id="laws"><div data-vault="laws" style="min-height:120px"></div></section>
 
   <!-- 章节进度 -->
   <section id="chapters">
@@ -530,25 +387,7 @@
           <li>张角首次用残篇逼退祟两秒，但录像与备份仍被同步抹除。</li>
           <li class="hook">章末钩子：张宝发现「皮尔王一世敕建」线索。</li>
         </ul></div>
-      <div class="chap" data-ch="4"><div class="topx"><span class="num">第 04 章</span><h3>第一场拦截</h3></div>
-        <ul>
-          <li>市图书馆建城碑被「维护」围起，三人攀脚手架，目击碑文实时被改写为「皮尔王立，黄天当灭」。</li>
-          <li>张角以残篇逼退祟救下工人；夺得带朱砂云纹的碑石碎片（现场原物）。</li>
-          <li class="hook">章末落地：决定从「追现场」转向「追狤所附身的躯壳」。</li>
-        </ul></div>
-      <div class="chap" data-ch="5"><div class="topx"><span class="num">第 05 章</span><h3>狤的反击</h3></div>
-        <ul>
-          <li>张宝追查维护公司，发现其与铠警系统及王城卫队关联；三人再访秦述，获得「逆龙云纹」、碑座封印、旧档库地址等线索。</li>
-          <li>祟从建城碑中大规模涌出，张梁被咬掉一句关键话语，张角以残篇驱动石片暂时稳固封印。</li>
-          <li class="hook">章末落地：三人付出记忆代价守住一城，旧档库成为下一站。</li>
-        </ul></div>
-      <div class="chap" data-ch="6"><div class="topx"><span class="num">第 06 章</span><h3>档案室的第二页</h3></div>
-        <ul>
-          <li>潜入阿瑞斯铠警总局旧档库「戊字库」，发现《崇文书院志》中地契被改写（「黄野旧址、太平道遗脉」被改为普通新址）。</li>
-          <li>祟群镇守档案，张梁以记忆为代价抵挡；张角用校服白布拓下关键字迹带走第二份现场原物证据。</li>
-          <li class="hook">章末落地：收到画有逆龙云纹的纸条，约见校史墙，神秘援助者出现。</li>
-        </ul></div>
-      <div class="chap-locked">— 第 4 章起 · 待作者逐章解封 —</div>
+      <div id="vault-ch456" data-vault="ch456"></div><div class="chap-locked">— 第 4 章起 · 待作者逐章解封 —</div>
     </div>
   </section>
 
@@ -558,6 +397,7 @@
       <div class="lock-icon">◈ 档案其余部分已加密</div>
       <div class="lock-title">后续章节与设定档案 · 待作者逐章解封</div>
       <p class="lock-text">本档案当前公开至卷壹前三章。六卷大纲、群像、世界法则、伏笔与后续方向，将随作者连载进度逐步解密。</p>
+      <p style="margin-top:16px"><a id="adminEntry2" style="cursor:pointer;color:var(--gold);border-bottom:1px dashed var(--gold)">档案管理员入口</a></p>
     </div>
   </section>
 
@@ -571,62 +411,13 @@
   </section>
 
   <!-- 伏笔 -->
-  <section id="clues">
-    <div class="sec-head">
-      <span class="sec-no">05</span>
-      <span class="sec-title">暗码·待回收伏笔<span class="en">LOOSE ENDS / PENDING</span></span>
-    </div>
-    <div class="clue-grid reveal">
-      <div class="clue"><div class="idx">01</div><div class="body"><b>陈屿与初一学生</b><p>早期受害者，可作为「记忆被吃」的人证，但证据会随改写失效。</p><span class="tag">人证</span></div></div>
-      <div class="clue"><div class="idx">02</div><div class="body"><b>课本第 9 页黑墨</b><p>黄巾起义那页狤没改完，是全书第一个异常锚点。</p><span class="tag">锚点</span></div></div>
-      <div class="clue"><div class="idx">03</div><div class="body"><b>建城碑朱砂云纹石片</b><p>半毁的封印碎片，已证实碑座封印存在且松动。</p><span class="tag">物证</span></div></div>
-      <div class="clue"><div class="idx">04</div><div class="body"><b>崇文书院地契拓片</b><p>证明学校建在「黄野」旧址之上，是太平道封印现场之一。</p><span class="tag">物证</span></div></div>
-      <div class="clue"><div class="idx">05</div><div class="body"><b>秦述</b><p>体制内灰角色，旧伤、笔录册挡监控、王城卫队背景，可能持续提供暗线情报。</p><span class="tag">暗线</span></div></div>
-      <div class="clue"><div class="idx">06</div><div class="body"><b>逆龙云纹纸条</b><p>约见校史墙，援助者身份不明。</p><span class="tag">悬念</span></div></div>
-      <div class="clue"><div class="idx">07</div><div class="body"><b>张梁丢失的「那句话」</b><p>可能关系到后续破解危机的关键。</p><span class="tag">记忆</span></div></div>
-      <div class="clue"><div class="idx">08</div><div class="body"><b>沈老师</b><p>对张角的异常回答表现出确认式沉默，是否知晓太平道 / 狤的真相待揭示。</p><span class="tag">师长</span></div></div>
-      <div class="clue"><div class="idx">09</div><div class="body"><b>铠警系统将三兄弟列为关注对象</b><p>旧档库入侵事件可能引发反扑。</p><span class="tag">危机</span></div></div>
-      <div class="clue"><div class="idx">10</div><div class="body"><b>术袍部件</b><p>尚未出现，预计后续破译更多历史后逐步解锁。</p><span class="tag">成长</span></div></div>
-    </div>
-  </section>
+  <section id="clues"><div data-vault="clues" style="min-height:120px"></div></section>
 
   <!-- 后续 -->
-  <section id="future">
-    <div class="sec-head">
-      <span class="sec-no">06</span>
-      <span class="sec-title">下一步·待展开方向<span class="en">WHAT'S NEXT</span></span>
-    </div>
-    <div class="future-card reveal">
-      <h3>第 7 章 · 暂定《被当作编造者》</h3>
-      <ul>
-        <li>旧档库事件引发校方 / 铠警约谈</li>
-        <li>三兄弟被当作编造者或肇事者</li>
-        <li>校史墙约见神秘人</li>
-        <li>学校地底封印出现新异动</li>
-      </ul>
-      <h3 style="margin-top:24px">卷壹后续关键词</h3>
-      <ul>
-        <li>史书的缺口、异界术袍、戱的暴政</li>
-        <li>牺牲的代价、靠近戱、公开对质</li>
-        <li>决战前夜、第一轮对决</li>
-      </ul>
-      <h3 style="margin-top:24px">待强化主题</h3>
-      <ul>
-        <li>兄弟情、师生 / 苍生守护、记忆与真相</li>
-        <li>体制黑幕、牺牲与无名</li>
-      </ul>
-    </div>
-  </section>
+  <section id="future"><div data-vault="future" style="min-height:120px"></div></section>
 
   <!-- 余响 -->
-  <section class="finale" id="finale">
-    <div class="void-line" id="voidLine">
-      史册永远空缺的一页<br>
-      与无名英雄的余响
-    </div>
-    <div class="empty-page"></div>
-    <div class="echo">— 全书在此收束 · 记忆在此归零 —</div>
-  </section>
+  <section id="finale"><div data-vault="finale" style="min-height:120px"></div></section>
 
   <footer>被抹掉的现场 · 解密档案 / 资料库原件可视化 · 悬停密文以揭示</footer>
 </div>
@@ -646,6 +437,8 @@
         <div class="cd-box"><b id="cd-s">--</b><span>秒</span></div>
       </div>
       <div class="ghint">解封后率先公开前三章 · 余下内容随连载逐章解密</div>
+      <div id="tzWarn" style="display:none;margin-top:14px;color:#c9544a;font-size:12px;letter-spacing:.12em">&#9888; 检测到本机时间与授时中心存在偏差，已按授时中心计时</div>
+      <div style="margin-top:30px"><a id="adminEntry" style="cursor:pointer;color:var(--ash);font-size:12px;letter-spacing:.2em;border:1px solid var(--line);border-radius:4px;padding:6px 16px">· 档案管理员入口 ·</a></div>
     </div>
   </div>
 
@@ -693,28 +486,125 @@
   const fo=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){setTimeout(()=>fl.classList.add('fade'),900);}});},{threshold:.5});
   fo.observe(fl);
 
-  // 档案解封门禁：未到发布日期只显示书名/简介/发布日期/倒计时
+  // ===== 档案解封：授时中心判定 + 口令解锁 =====
   (function(){
-    var target=new Date('2026-09-23T00:00:00');
+    var target=new Date('2026-09-23T00:00:00').getTime();
+    var TZ=null;                       // 授时偏移 ms，null=授时不可用
+    var CHECK='145b079bc1f5b0cb10da00c5fe5fecd4493196da9498c8d76773feb6af497fdc';
+    var VAULT={"volumes": "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", "cast": "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", "laws": "dUW58iSpmlPrJuQrYpcMJ6NaX5dV0/5RJRWxco8ZRbQ6/1n1JxM5yJLkJITazgguSyNf4/B+AHMxqYnXquFB1RZZf0YzxI6Hrw4VGtNeUVoGLW50iAe9ZtUwLLzW5bXNkzAHIhxYn7wEpGc89z1QsSoJlk2W+Ps7R0A16MkuqR5yEiy/TVtbgf8jGSrSrHzSYAvLoPzfr11uKHviYBzDqcRgjzE2VNAlEKWcsMsN5pFK6Wwc1FmpTkOCef+7My/FRw1O3PYGxeIYoLyF/B8f8yNwnclqm8/vkrr/XULjeYQ2q0b9RGFDS8jzLhjXNX3QOBTWSQ927qWIXxlA0FlJdVvc9xo2Wh0ZSOyrhj/hYfUZ7LOpUJ8ZWVBcPX07Z/ldOq51Ao/kimHcHS7a/YhxgiMKJsKOoYChmJxTPwgClxpT6lpZ/Jn8RAa87QQUIW1qI3wepZVJcVDXRGcqW66cIpJWz4yBlkG86HSQgUuvQYqnnGSl9fk9ihIe4DW9psA6sT57VcApwY0rwixDv7rc0F9MWIv8ss4WyGOeVcsw04LB9B/nccIULb+ByNk6+00yY3kvnHWu7Eaqs8AOr0uiSfa8Uu2Qu2V0JuezLBTbIs3ys9lP0oZD4/T8h4DySsmNx0ceHVaNBXh8KTRVsq8xpn/1v4wS7saUTfzmgIxlbqFYmSsKbw8Z5I5uYNyCj88Wtc/cwMOX71teKZvgy7OmggVAkBOJs52d0neGP8vdvHIDnItb8IZizdioVybL9JmBJ4ToJCbm6MeK5OUakETuCZ3DrrL+FQ8yGof3JaAJyk2Pyep2wMuGHgbBL/obQrVk2bNCuYLsRY12E28KWBYsFLUjIZdN3ueqP39Y5GpVDn8NQKJOnqIqRRlzWSGnfvj57js62vP3oVyRA6rFHWxtig3LBnZ8Eiqx/NnEiQjFoHS3TjGE63/Zt/EUHqyuRJOPkBT7qyTe8ohpGYHra3q1VPlh1eeHOQdeWOBEJCuA4ZBvocjRxQf9QR7wKf+4capewQfMG4nJO19a/5DaMxlezTEHL72q0R6yQ75QvOHbv3y7zw98EOQrYwzvIRmcpgvgbkwkPZZ927BcYPJGz8txrU/XEuY/IMcndE8Ua0hXorlnIXI6duNbnmONbPt/NA58reFU7wRMYpqfBlHX3WkzyCcV2pQqbPv2otrsijvQ4EDrb5qTDjxzPi1bTKqkc7E7Qc/u8HpyfMUxcophbqoVMoYHpFbrXKdb4U7QPc744vzlEPtsjz5XrXLndRQSyvQm6/jCQeOcnykh6LRKMyH1rD4ws7+kwfI/v/lFYIofnoNXT2FdoeDgs14SO6EzywkBFN3PeL23/CVog0f4eVOtA/SBMTA69+ZoLeRdqV2ZMB8LC/g8dulvwRJ0MXQVy8sR9ImWI3SKeJKg0gp20enWBDn73qzAdibaVBsZMqX1jT0q2HVPHSJszTVVCQVxdaWlcP2agt91eghV70J5/mGzhvVY0rog43+LpIg38ndo7bRDSv/RSXKtQwmpdqqWa8Nrdv4zu7ZCIbK1UH5hhAcTX5NiCyG6n9+AH0xj+Wx+kHHmz38HnV09CTUwBclRHL1ykSkVy1YyZzzlzZmznYWvmLaRUVty4XFZBYBUdC3VxuCIToE619D3ZjJQEyTbf6VYxSGa9JbzMkhHcxaaewzPiGQelw3qMaTPCfuJxx+olxKahawTbd0/PWo2h5xaQqgeGh2mV/y9L+73IVe5NFDL87vpRNaNTdFmKvTAxPqWGmF8A5O0OPczC2+d2IvichoVS5sDIWv4zNZvf3uKCIzWRsd25BfzZz1DucDGwdAFf0VlwBu7VL+iqt/5uZtATrIkA/SeWyKUaczimAs+CveZwVBvbUh0S5xjHgBJnrf8VoQC8hcWDA0BD0JBQ7obcDy5AQzKKWTYWWsa5jPZtrXOY3Gng7uebOPw2bsSMBSD3fR07AnmJ6rlezJQ8f803YAyyLKdCjVETCr5tX++KvZmNnjqYw5LX2hJ/2xHCahw3iUlH3l9SVzZUbhKtKABCgJVI8M2YoH/1iLzO/vlEg8SwQhcK9LRWS453w/ItN+0AWaf987ZL7hEc00cFdLcgWBMy/3W0KuuZ6alrqj7Erf2D7LzWE+U+B0XggmK7Y4eC4hcSvqnTHmTuMfRp4UxEy6Jr3XA0uK2ZHc1HvxCe3YEkW9EijIYTfQ9Z4t3DBuJEdW8x5LiGle2fKy3QRVxIIfQF5d4cIUi+tQgmWWDYNm6RAnMB1ZmYK1mwGa7zcZYAv/QMWOp4vszvfmN4TuzSXOngNWmxSaXK1Y6D6sI88EIHMXOKKJAxIHeDjm64M5xMqE3e04wiXqEDzKCYJjOq8uHY3VG8PVSq9uD+UURpyhypZNgtHwKeRt0hLmBVKovCJwk507p2bF+u9Ch2/+at8Y/spup1bXe2xJpgSk488YXIlBEgnKJ/5LeJ+WqvAGhDLBgw6FfY4VNhFI0MOoRmqmvn0nIENILAz2yaVee5sFdRuuXaMapm9as1Znb25J2eHZzp20QjWK3IMeGyw2b5MjzMbztq/ZL0i8f5q7FVapgr6LaJM1M8ItcVtSxX0Foe+V2c8sa2+H1oIoLrcMpEEEpZE/UPHAyLXR8gT6h/vCtbYyzqYGeRGRUOmPJ04xIopJpt7hhKNXRxISsYzDAvKqW/TEVv9OJ55+PP20rUqe6ePbdwtON+xAOX8Y4hnUeYYAXckv2X6LYkH174tB8focgi60PD1IoEz/Caylw8SXusoEuWatKe/nUEheE9qROLuXrYTHqGMdjoe4KaMlXbtan4/cZWB+UCNcOWCIULHSDZakygRKB8u8iWm6+Ib6uwCWdMjhdSXHYy39y9L5fKeg2n1X2tkKZKKVnN9x4im+LKvWS/iuiLsaVWrp6MNCuwTDe0nZD0Ku3cB7mvB9nqWP/cdc3V4okjoGJDBFA3qvERME5cHV6tpwoZMct0iAa4PXO2PHwrs79mkZdyo7EtMamZhaUYlNyyG5bToy+MNHQRWKzNy3ilC6gUTGVncHYcSrA2CDctkiJAKXFM6RR8UiwhAFngniWuam8b6dR09k67p2Nx18kZ5JWtMKx0sZpbwErRxK241u643FGzWTu1n1Ehbga2NfIpe+X8hxEW+rDWRIh1l5Ntoez8hyryqHeKiy4RF+QTOiPI0N/fHuKLK8V6GSs8/6gnmRBV/OnN3AbWVAjPNKobmaX5sM19BVL0zZcw4qQdRHGMySUrnNH3zdXD9EuWEvA6sXPuyM1Ux8cG2js1S9PZIZJNRZuTDYlvSVTvpzIiPKylC+crl0hqa+GAGindc1TFfb3lTuG87AcvUceTFn8BMmAdAW8fh9zmn3tEh94ekEClw2Al3R9TSrBwlBMTu8oHObX7IFW3pUXJ6lj+27ij/7X5h1hsc2sbtjYKbTEQL+N/KU+XC0vlxI8LdJ95gA4fSxN6Wavzu37slHxdvqcUCxvqgeiQVLn5R8E0U0Ac3dZ3ePnoIpjxfJ/+7ezHGP00jNRfTGYy1nyb+wH2/uZQJPB2d9bzvo9tj4at91xWxYUNPmtrLgjCXw8RLot8mA2o16UUbfY6euWzFuD", "clues": "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", "future": "dUW58iSpmlPrJuQrYp0YJKUKBL9L+f5ROVHkYMYMCbYl7RekaVQpgJmsLYWZlCAwYSNf4/BiUz8jt8ja5uNex1gIMQEjjIPF418HF99HHgUUMzEQli29ZtUwMO+a96uMnnwFPQ4WzvJDtC8rsz1VoGRSUsDnpfhGPXc3/foLi3ckKFnmZRIAm51TOlilncGdYxrE7r/Qok9uZmSla1DfwNtuiVohVMw1BLTzv5ddwrE3hxo/8H2DTGbRKb71MTyOXQsRuOgsxeIE5OncuBUFrFojgMss0t/zlv+xUkLibplmolHvBX8EA6eyYhrJH33McAfIjp++p+SI296Bg+jDd94pEZq6/qzMjkEkHep8MKaEMxtHgynRtveXhLHfhbNMWL1rKI/kin2UCSxJMQ6eHYDOvnRJFCx0ZlyIdA+ZXtPEMerqOANXgJ02eIZoXF0cVEJZ1awU6PQSCWJlD4/dTowVp6PvIt80OMFyG8Rp9RNiOt18FiLm6CZ4uTzfyfZC/AM3Kvlcir9TnRAz+puapV8vNq2O5uZ5j1zzNdtSfytLFKEI7HHTiSlGcn3uKKPpC2JhxWEgepRSOlrLK41Q3W4Axy9sfeEnoUw68pQ5t1o2KnCGcAWWLigk+oKxOMbImltKQGz9REwYYjoD5Ylt3FSg541HhPDwPM+rEi/unRu3JbvM2ZYF99JrbYy2TG+0qcCMwqGE7wgKbNjhn+f16VcH2V2Yo5ubyCbeLsCMv7XiShnYOwaEJl5/2P1EZ1A1qUxnlX6g9tTXgqRJw1nsSs7Sp67KZ3pef4rnNKD3EQTjaTKWbSZlxbMhoTCfrRrnGhPjfAIGliYfekFANjhHY4xHQYYUnvnLUXzQLZbeDFpBCbxknqI2FQe08qV9vR4hpRNmqcOgwF/waKODf1s/1gijTlA5VSzFoMWR0gii6VD8DhLjlFSE4tlagwstkSVjLbQ9A6oYWj6w5XYwF1DuHMEcj+jlYCotB+wjVz7Jg7EK2fuYrhigHzunr2ozghC8T5cJhC8Nv/7IGgc4vLibfZ3BvnB8Vdwgr1raPVhTUaQ6Oui02Cuz/qw/6ehbHWq7VzZ9HNMUxNkAY40B2ke2a8wBm3v4nGzi3MOCh/q7HjOhlev/+E+EcodUE/ocRicL9NsyjAbxqFIp6+Vo3WYvD8jxSz6/qXVeZGwsAM1xa4I6+VYoyOicrpG2zkd5LvJ1FvvE8HpyfMUtNsMrIqBHt0jnfPw+2nivJskXiwI8KEVt17BpS9ScGKwDxcGj2b8j9PjCQeOcnykh6PMLYfh2Jfa/EmUlLnzcGBvCxFO4dNobUzwMxf4=", "finale": "dUW58iSpmlPrLOx3M4hQcrYRD/wZlvxRcBXlJskTR7Ql6UbpXlZ6xdq9IYmO0GFiCnAM/vI0HGo06sXdqOUQhkIfMQEmhomMwVlLTM1PKApHY3BeiMIS9BCWnCkWPDNSbLvP64jZByj7Q67wHqCdYTRVAsAJPVOCpdfxtOdH2gU6SCzaGHwN8uBBZCex6EB39ugnxPyc4xwhdCKpc0zrt7MP/UEWHfRQP4yu45cQgbpky0E1rWyMFQnTN6L6aXqcCncPkugs2aZR9qDJ9BcavhRy2IoiyIm4BhoIEcYVol2tYcIWzPWLmUsG9Nx0oH0yrxQex4P3OFVNoN3HDo6R6qpaCMk0hs/YOIbi33n/qWIZk9OIcKMlf3B5Pw==", "ch456": "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"};
+    var SALT='archive-v1';
     function pad(n){return (n<10?'0':'')+n;}
-    function reveal(){
-      var d=document.documentElement;
-      d.classList.remove('sealed');
-      d.classList.add('partial');   // 解封即上线：仅公开前三章，余下待逐章解密
-      document.querySelectorAll('.reveal').forEach(function(e){e.classList.add('in');});
+    function now(){return Date.now()+(TZ||0);}
+    function toHex(buf){
+      var s='';
+      new Uint8Array(buf).forEach(function(b){s+=(b<16?'0':'')+b.toString(16);});
+      return s;
     }
+    function setState(mode){
+      var d=document.documentElement;
+      d.classList.remove('sealed','partial');
+      if(mode==='partial'){d.classList.add('partial');}
+      if(mode==='partial'||mode==='full'){
+        document.querySelectorAll('#wrap .reveal').forEach(function(e){e.classList.add('in');});
+      }
+    }
+    // ---- 多源授时：取服务器时间与本地时间偏移的中位数 ----
+    function timeOffset(){
+      var srcs=[];
+      srcs.push(fetch(location.href.split('#')[0]+(location.search?'&':'?')+'_t='+Date.now(),{method:'HEAD',cache:'no-store'})
+        .then(function(r){return new Date(r.headers.get('Date')).getTime()-Date.now();}));
+      srcs.push(new Promise(function(res,rej){
+        var s=document.createElement('script'),done=false;
+        var t=setTimeout(function(){if(!done){done=true;rej(new Error('timeout'));}},4000);
+        window.__stcb=function(d){if(!done){done=true;clearTimeout(t);res(new Date(d.sysTime2.replace(/-/g,'/')).getTime()-Date.now());}};
+        s.src='https://quan.suning.com/getSysTime.do?callback=__stcb';
+        s.onerror=function(){if(!done){done=true;clearTimeout(t);rej(new Error('err'));}};
+        document.head.appendChild(s);
+      }));
+      srcs.push(fetch('https://timeapi.io/api/Time/current/zone?timeZone=Asia/Shanghai',{cache:'no-store'})
+        .then(function(r){return r.json();}).then(function(d){return new Date(d.dateTime).getTime()-Date.now();}));
+      return Promise.allSettled(srcs).then(function(rs){
+        var offs=[];
+        rs.forEach(function(r){if(r.status==='fulfilled'&&isFinite(r.value))offs.push(r.value);});
+        if(!offs.length)return null;
+        offs.sort(function(a,b){return a-b;});
+        return offs[Math.floor(offs.length/2)];
+      });
+    }
+    // ---- 密钥流派生：SHA-256 哈希链 ----
+    function derive(pass,saltStr,len){
+      var te=new TextEncoder();
+      var h=te.encode(pass+saltStr);
+      var out=new Uint8Array(len),off=0;
+      function next(dig){
+        var d=new Uint8Array(dig);
+        for(var i=0;i<d.length&&off<len;i++){out[off++]=d[i];}
+        if(off<len)return crypto.subtle.digest('SHA-256',dig).then(next);
+        return out;
+      }
+      return crypto.subtle.digest('SHA-256',h).then(next);
+    }
+    // ---- 口令解锁（解密并注入） ----
+    function unlock(){
+      if(!window.crypto||!crypto.subtle){alert('当前环境不支持安全解密');return;}
+      var pass=prompt('输入档案管理员口令：');
+      if(!pass)return;
+      var te=new TextEncoder();
+      crypto.subtle.digest('SHA-256',te.encode(pass)).then(function(dig){
+        if(toHex(dig)!==CHECK){alert('口令错误');return;}
+        var d=document.documentElement;
+        d.classList.add('authed');
+        try{sessionStorage.setItem('archive_authed','1');}catch(e){}
+        setState('full');
+        var keys=Object.keys(VAULT);
+        var chain=Promise.resolve();
+        keys.forEach(function(k){
+          chain=chain.then(function(){
+            var raw=atob(VAULT[k]);
+            return derive(pass,SALT,raw.length).then(function(stream){
+              var bytes=new Uint8Array(raw.length);
+              for(var i=0;i<raw.length;i++){bytes[i]=raw.charCodeAt(i)^stream[i];}
+              var el=document.querySelector('[data-vault="'+k+'"]');
+              if(el)el.innerHTML=new TextDecoder().decode(bytes);
+            });
+          });
+        });
+        chain.then(function(){
+          document.querySelectorAll('#wrap .reveal').forEach(function(e){e.classList.add('in');});
+          var ring=document.getElementById('ringFill');
+          if(ring){var C=2*Math.PI*62;ring.style.transition='stroke-dashoffset 1.6s ease';ring.style.strokeDashoffset=C*(1-6/15);}
+          var bar=document.getElementById('progBar');
+          if(bar)bar.style.width=(6/15*100)+'%';
+        });
+      });
+    }
+    // ---- 倒计时（授时驱动） ----
     function tick(){
-      var diff=target-new Date();
-      if(diff<=0){reveal();return;}
-      var d=Math.floor(diff/86400000);
-      var h=Math.floor(diff%86400000/3600000);
-      var m=Math.floor(diff%3600000/60000);
-      var s=Math.floor(diff%60000/1000);
-      var dd=document.getElementById('cd-d'),hh=document.getElementById('cd-h'),mm=document.getElementById('cd-m'),ss=document.getElementById('cd-s');
-      if(dd)dd.textContent=d; if(hh)hh.textContent=pad(h); if(mm)mm.textContent=pad(m); if(ss)ss.textContent=pad(s);
+      if(document.documentElement.classList.contains('authed'))return;
+      var diff=target-now();
+      if(diff<=0){setState('partial');return;}
+      var d=Math.floor(diff/86400000),h=Math.floor(diff%86400000/3600000),
+          m=Math.floor(diff%3600000/60000),s=Math.floor(diff%60000/1000);
+      var dd=document.getElementById('cd-d'),hh=document.getElementById('cd-h'),
+          mm=document.getElementById('cd-m'),ss=document.getElementById('cd-s');
+      if(dd)dd.textContent=d;if(hh)hh.textContent=pad(h);if(mm)mm.textContent=pad(m);if(ss)ss.textContent=pad(s);
       setTimeout(tick,1000);
     }
-    if(document.documentElement.classList.contains('sealed')){ tick(); }
+    // ---- 启动 ----
+    var e1=document.getElementById('adminEntry'),e2=document.getElementById('adminEntry2');
+    if(e1)e1.addEventListener('click',unlock);
+    if(e2)e2.addEventListener('click',unlock);
+    timeOffset().then(function(off){
+      TZ=off;
+      var d=document.documentElement;
+      if(TZ!==null&&Math.abs(TZ)>60000){
+        var w=document.getElementById('tzWarn');
+        if(w)w.style.display='block';
+      }
+      if(d.classList.contains('authed')){ unlock(); return; }   // 刷新后重新输口令解密
+      if(now()>=target){ setState('partial'); }
+      else{ d.classList.add('sealed'); d.classList.remove('partial'); tick(); }
+    });
   })();
 </script>
 </body>
