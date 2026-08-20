@@ -464,7 +464,7 @@
       if(frame>total){el.textContent=final;clearInterval(id);}
     },42);
   }
-  window.addEventListener('load',()=>decode(document.querySelector('#vtitle .glitch')));
+  window.addEventListener('load',()=>{const g=document.querySelector('#vtitle .glitch');if(g)decode(g);});
 
   // reveal on scroll
   const io=new IntersectionObserver(es=>{
@@ -476,15 +476,17 @@
   window.addEventListener('load',()=>{
     const C=2*Math.PI*62;
     const ring=document.getElementById('ringFill');
-    setTimeout(()=>{ring.style.transition='stroke-dashoffset 1.6s ease';ring.style.strokeDashoffset=C*(1-6/15);},400);
+    if(ring)setTimeout(()=>{ring.style.transition='stroke-dashoffset 1.6s ease';ring.style.strokeDashoffset=C*(1-6/15);},400);
     const bar=document.getElementById('progBar');
-    setTimeout(()=>{bar.style.width=(6/15*100)+'%';},600);
+    if(bar)setTimeout(()=>{bar.style.width=(6/15*100)+'%';},600);
   });
 
-  // finale fade-on-view
+  // finale fade-on-view（元素可能不存在，判空避免脚本崩溃）
   const fl=document.getElementById('voidLine');
-  const fo=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){setTimeout(()=>fl.classList.add('fade'),900);}});},{threshold:.5});
-  fo.observe(fl);
+  if(fl){
+    const fo=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){setTimeout(()=>fl.classList.add('fade'),900);}});},{threshold:.5});
+    fo.observe(fl);
+  }
 
   // ===== 档案解封：授时中心判定 + 口令解锁 =====
   (function(){
@@ -523,13 +525,16 @@
       }));
       srcs.push(fetch('https://timeapi.io/api/Time/current/zone?timeZone=Asia/Shanghai',{cache:'no-store'})
         .then(function(r){return r.json();}).then(function(d){return new Date(d.dateTime).getTime()-Date.now();}));
-      return Promise.allSettled(srcs).then(function(rs){
+      var settled=Promise.allSettled(srcs).then(function(rs){
         var offs=[];
-        rs.forEach(function(r){if(r.status==='fulfilled'&&isFinite(r.value))offs.push(r.value);});
+        rs.forEach(function(r){if(r.status==='fulfilled'&&isFinite(r.value)&&Math.abs(r.value)<86400000)offs.push(r.value);});
         if(!offs.length)return null;
         offs.sort(function(a,b){return a-b;});
         return offs[Math.floor(offs.length/2)];
       });
+      // 兜底：8 秒内授时源未全部返回则降级本地时间，避免倒计时卡死
+      var guard=new Promise(function(res){setTimeout(function(){res(null);},8000);});
+      return Promise.race([settled,guard]);
     }
     // ---- 密钥流派生：SHA-256 哈希链 ----
     function derive(pass,saltStr,len){
