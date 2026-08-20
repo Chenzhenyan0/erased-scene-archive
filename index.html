@@ -228,7 +228,48 @@
     .vol{grid-template-columns:40px 1fr;gap:14px}
     .chap-intro{flex-direction:column;align-items:flex-start}
   }
+  /* ===== 档案解封门禁 ===== */
+  html.sealed #wrap{display:none}
+  html.sealed #sui{display:none}
+  #gate{display:none}
+  html.sealed #gate{
+    display:flex;position:fixed;inset:0;z-index:200;
+    align-items:center;justify-content:center;text-align:center;padding:24px;
+    background:
+      radial-gradient(80% 60% at 50% 38%, rgba(178,58,50,.12), transparent 60%),
+      radial-gradient(60% 50% at 50% 90%, rgba(20,20,30,.6), transparent 70%),
+      var(--void);
+  }
+  .gate-inner{max-width:660px;position:relative}
+  .gate-seal{
+    font-family:var(--kai);font-size:14px;letter-spacing:.5em;color:var(--seal-soft);
+    border:1px solid var(--seal);padding:7px 14px 7px 18px;border-radius:3px;
+    transform:rotate(-3deg);opacity:.9;margin-bottom:30px;display:inline-block;
+    box-shadow:0 0 30px rgba(178,58,50,.25) inset;
+  }
+  .gtitle{
+    font-family:var(--kai);font-weight:700;font-size:clamp(42px,10vw,88px);
+    letter-spacing:.12em;color:var(--paper);text-shadow:0 0 40px rgba(0,0,0,.6);margin:6px 0 6px;
+  }
+  .gsub{font-family:var(--mono);font-size:12px;letter-spacing:.4em;color:var(--ash);text-transform:uppercase;margin-bottom:22px}
+  .gintro{max-width:540px;margin:0 auto;color:var(--paper-dim);font-size:15px;line-height:2;
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 6px}
+  .gdate{margin-top:22px;color:var(--gold);font-size:15px;letter-spacing:.06em}
+  .countdown{display:flex;gap:16px;justify-content:center;margin:26px 0 14px}
+  .cd-box{display:flex;flex-direction:column;align-items:center;min-width:72px;padding:14px 10px;
+    border:1px solid var(--gold);border-radius:8px;background:rgba(201,168,106,.06)}
+  .cd-box b{font-family:var(--mono);font-size:clamp(28px,6vw,40px);color:var(--gold);line-height:1}
+  .cd-box span{margin-top:8px;font-size:12px;color:var(--ash);letter-spacing:.2em}
+  .ghint{color:var(--ash);font-size:12px;letter-spacing:.15em;margin-top:6px}
+
 </style>
+<script>
+  (function(){
+    var preview=/[?&]preview=1/.test(location.search);
+    var target=new Date('2026-09-23T00:00:00');
+    if(!preview && target-new Date()>0){document.documentElement.classList.add('sealed');}
+  })();
+</script>
 </head>
 <body>
 <div id="sui"></div>
@@ -247,7 +288,7 @@
   <div class="scroll-hint">↓ 向下翻阅 · 触碰文字以揭开密文</div>
 </header>
 
-<div class="wrap">
+<div class="wrap" id="wrap">
 
   <!-- 序 -->
   <section id="intro">
@@ -543,6 +584,24 @@
   <footer>被抹掉的现场 · 解密档案 / 资料库原件可视化 · 悬停密文以揭示</footer>
 </div>
 
+  <!-- 档案解封门禁 -->
+  <div id="gate">
+    <div class="gate-inner">
+      <div class="gate-seal">绝密 · 档案未解封</div>
+      <h1 class="gtitle">被抹掉的现场</h1>
+      <div class="gsub">The Erased Scene · 解密档案</div>
+      <p class="gintro">黄巾起义疑点重重。张角三兄弟发现：每一处被篡改的历史，都对应一次「祟」的作案预告。在公开的谎言与真相之间，他们必须抢跑——直到档案解封的那一刻。</p>
+      <div class="gdate">预定解封 · 2026-09-23　起点中文网第一章发布</div>
+      <div class="countdown">
+        <div class="cd-box"><b id="cd-d">--</b><span>天</span></div>
+        <div class="cd-box"><b id="cd-h">--</b><span>时</span></div>
+        <div class="cd-box"><b id="cd-m">--</b><span>分</span></div>
+        <div class="cd-box"><b id="cd-s">--</b><span>秒</span></div>
+      </div>
+      <div class="ghint">档案将于解封时刻自动公开全部内容</div>
+    </div>
+  </div>
+
 <script>
   // 祟 cursor mist
   const sui=document.getElementById('sui');
@@ -586,6 +645,28 @@
   const fl=document.getElementById('voidLine');
   const fo=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){setTimeout(()=>fl.classList.add('fade'),900);}});},{threshold:.5});
   fo.observe(fl);
+
+  // 档案解封门禁：未到发布日期只显示书名/简介/发布日期/倒计时
+  (function(){
+    var target=new Date('2026-09-23T00:00:00');
+    function pad(n){return (n<10?'0':'')+n;}
+    function reveal(){
+      document.documentElement.classList.remove('sealed');
+      document.querySelectorAll('.reveal').forEach(function(e){e.classList.add('in');});
+    }
+    function tick(){
+      var diff=target-new Date();
+      if(diff<=0){reveal();return;}
+      var d=Math.floor(diff/86400000);
+      var h=Math.floor(diff%86400000/3600000);
+      var m=Math.floor(diff%3600000/60000);
+      var s=Math.floor(diff%60000/1000);
+      var dd=document.getElementById('cd-d'),hh=document.getElementById('cd-h'),mm=document.getElementById('cd-m'),ss=document.getElementById('cd-s');
+      if(dd)dd.textContent=d; if(hh)hh.textContent=pad(h); if(mm)mm.textContent=pad(m); if(ss)ss.textContent=pad(s);
+      setTimeout(tick,1000);
+    }
+    if(document.documentElement.classList.contains('sealed')){ tick(); }
+  })();
 </script>
 </body>
 </html>
