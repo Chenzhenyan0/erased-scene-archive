@@ -262,12 +262,44 @@
   .cd-box span{margin-top:8px;font-size:12px;color:var(--ash);letter-spacing:.2em}
   .ghint{color:var(--ash);font-size:12px;letter-spacing:.15em;margin-top:6px}
 
+  /* ===== 上线日·部分解封（仅公开前三章） ===== */
+  html.partial #volumes,
+  html.partial #cast,
+  html.partial #laws,
+  html.partial #clues,
+  html.partial #future,
+  html.partial #finale{display:none}
+  html.partial .chap[data-ch="4"],
+  html.partial .chap[data-ch="5"],
+  html.partial .chap[data-ch="6"]{display:none}
+  .vault-locked{display:none}
+  html.partial .vault-locked{display:block}
+  .chap-locked{display:none}
+  html.partial .chap-locked{display:block}
+  .vault-locked .lock-card{
+    border:1px dashed var(--gold);border-radius:8px;padding:34px 36px;text-align:center;
+    background:rgba(201,168,106,.05);
+  }
+  .vault-locked .lock-icon{font-family:var(--kai);font-size:22px;color:var(--gold);letter-spacing:.2em;margin-bottom:14px;opacity:.92}
+  .vault-locked .lock-title{font-family:var(--kai);font-size:22px;letter-spacing:.14em;color:var(--paper);margin-bottom:10px}
+  .vault-locked .lock-text{color:var(--paper-dim);font-size:15px;line-height:2;max-width:560px;margin:0 auto}
+  .chap-locked{
+    grid-column:1/-1;border:1px dashed var(--line);border-radius:8px;padding:20px 24px;
+    text-align:center;background:rgba(14,14,20,.4);color:var(--ash);font-family:var(--mono);
+    font-size:13px;letter-spacing:.2em;
+  }
+
 </style>
 <script>
   (function(){
-    var preview=/[?&]preview=1/.test(location.search);
+    var q=location.search;
+    var preview=/[?&]preview=1/.test(q);
+    var forceLaunch=/[?&]view=launch/.test(q);
     var target=new Date('2026-09-23T00:00:00');
-    if(!preview && target-new Date()>0){document.documentElement.classList.add('sealed');}
+    var past=target-new Date()<=0;
+    if(preview){ /* 全档案：用于作者核验 */ }
+    else if(past || forceLaunch){ document.documentElement.classList.add('partial'); }
+    else { document.documentElement.classList.add('sealed'); }
   })();
 </script>
 </head>
@@ -480,42 +512,61 @@
       </div>
     </div>
     <div class="chap-grid reveal">
-      <div class="chap"><div class="topx"><span class="num">第 01 章</span><h3>被改过的课本</h3></div>
+      <div class="chap" data-ch="1"><div class="topx"><span class="num">第 01 章</span><h3>被改过的课本</h3></div>
         <ul>
           <li>开学第一课黄巾起义插图中祟现形，仅三兄弟可见；祟隔着投影咬掉前排陈屿的一段记忆。</li>
           <li>规则确立：三兄弟可见、仪器不可摄、物证残留。</li>
           <li class="hook">章末钩子：张角发现课本第 9 页有「改写笔迹」，并听见千年前的声音后昏倒。</li>
         </ul></div>
-      <div class="chap"><div class="topx"><span class="num">第 02 章</span><h3>幽冥魔现形</h3></div>
+      <div class="chap" data-ch="2"><div class="topx"><span class="num">第 02 章</span><h3>幽冥魔现形</h3></div>
         <ul>
           <li>放学后连廊校史照片墙祟再次现形，咬掉一名初中生对自己名字的认知；三人赴铠警分局报案，被秦述以「查无此案」归档。</li>
           <li>张角进入「未被记录的历史」，遇见前世张角，获得第一段道术残篇。</li>
           <li class="hook">核心规则：每一页被改写的历史＝祟的下一处作案预告。</li>
         </ul></div>
-      <div class="chap"><div class="topx"><span class="num">第 03 章</span><h3>第一页被改写的历史</h3></div>
+      <div class="chap" data-ch="3"><div class="topx"><span class="num">第 03 章</span><h3>第一页被改写的历史</h3></div>
         <ul>
           <li>三兄弟潜入学校档案室，发现校史碑文被改写（「甲子之年，承黄天之佑」→「地方乡绅襄助」）。</li>
           <li>张角首次用残篇逼退祟两秒，但录像与备份仍被同步抹除。</li>
           <li class="hook">章末钩子：张宝发现「皮尔王一世敕建」线索。</li>
         </ul></div>
-      <div class="chap"><div class="topx"><span class="num">第 04 章</span><h3>第一场拦截</h3></div>
+      <div class="chap" data-ch="4"><div class="topx"><span class="num">第 04 章</span><h3>第一场拦截</h3></div>
         <ul>
           <li>市图书馆建城碑被「维护」围起，三人攀脚手架，目击碑文实时被改写为「皮尔王立，黄天当灭」。</li>
           <li>张角以残篇逼退祟救下工人；夺得带朱砂云纹的碑石碎片（现场原物）。</li>
           <li class="hook">章末落地：决定从「追现场」转向「追狤所附身的躯壳」。</li>
         </ul></div>
-      <div class="chap"><div class="topx"><span class="num">第 05 章</span><h3>狤的反击</h3></div>
+      <div class="chap" data-ch="5"><div class="topx"><span class="num">第 05 章</span><h3>狤的反击</h3></div>
         <ul>
           <li>张宝追查维护公司，发现其与铠警系统及王城卫队关联；三人再访秦述，获得「逆龙云纹」、碑座封印、旧档库地址等线索。</li>
           <li>祟从建城碑中大规模涌出，张梁被咬掉一句关键话语，张角以残篇驱动石片暂时稳固封印。</li>
           <li class="hook">章末落地：三人付出记忆代价守住一城，旧档库成为下一站。</li>
         </ul></div>
-      <div class="chap"><div class="topx"><span class="num">第 06 章</span><h3>档案室的第二页</h3></div>
+      <div class="chap" data-ch="6"><div class="topx"><span class="num">第 06 章</span><h3>档案室的第二页</h3></div>
         <ul>
           <li>潜入阿瑞斯铠警总局旧档库「戊字库」，发现《崇文书院志》中地契被改写（「黄野旧址、太平道遗脉」被改为普通新址）。</li>
           <li>祟群镇守档案，张梁以记忆为代价抵挡；张角用校服白布拓下关键字迹带走第二份现场原物证据。</li>
           <li class="hook">章末落地：收到画有逆龙云纹的纸条，约见校史墙，神秘援助者出现。</li>
         </ul></div>
+      <div class="chap-locked">— 第 4 章起 · 待作者逐章解封 —</div>
+    </div>
+  </section>
+
+  <!-- 部分解封：其余档案待解封 -->
+  <section class="vault-locked" id="vaultLocked">
+    <div class="lock-card">
+      <div class="lock-icon">◈ 档案其余部分已加密</div>
+      <div class="lock-title">后续章节与设定档案 · 待作者逐章解封</div>
+      <p class="lock-text">本档案当前公开至卷壹前三章。六卷大纲、群像、世界法则、伏笔与后续方向，将随作者连载进度逐步解密。</p>
+    </div>
+  </section>
+
+  <!-- 发布里程碑（始终可见） -->
+  <section id="release">
+    <div class="reveal" style="padding:18px 24px;border:1px dashed var(--gold);border-radius:6px;background:rgba(201,168,106,.05)">
+      <div style="font-family:var(--mono);font-size:12px;letter-spacing:.25em;color:var(--gold);margin-bottom:8px">RELEASE MILESTONE · 发布里程碑</div>
+      <!-- 起点小说地址待填：把下面 href="#" 改成实际链接 -->
+      <p style="margin:0;font-size:17px;color:var(--paper)"><b class="red">09-23</b>　在起点中文网发布第一章　·　<a id="qidianLink" href="#" style="color:var(--gold);border-bottom:1px dashed var(--gold)">前往阅读 ↗</a></p>
     </div>
   </section>
 
@@ -565,10 +616,6 @@
         <li>体制黑幕、牺牲与无名</li>
       </ul>
     </div>
-    <div class="reveal" style="margin-top:30px;padding:18px 24px;border:1px dashed var(--gold);border-radius:6px;background:rgba(201,168,106,.05)">
-      <div style="font-family:var(--mono);font-size:12px;letter-spacing:.25em;color:var(--gold);margin-bottom:8px">RELEASE MILESTONE · 发布里程碑</div>
-      <p style="margin:0;font-size:17px;color:var(--paper)"><b class="red">09-23</b>　在起点中文网发布第一章</p>
-    </div>
   </section>
 
   <!-- 余响 -->
@@ -590,7 +637,7 @@
       <div class="gate-seal">绝密 · 档案未解封</div>
       <h1 class="gtitle">被抹掉的现场</h1>
       <div class="gsub">The Erased Scene · 解密档案</div>
-      <p class="gintro">黄巾起义疑点重重。张角三兄弟发现：每一处被篡改的历史，都对应一次「祟」的作案预告。在公开的谎言与真相之间，他们必须抢跑——直到档案解封的那一刻。</p>
+      <p class="gintro">黄巾起义疑点重重。张角三兄弟发现：每一处被篡改的历史，都对应一次「祟」的作案预告。在公开的谎言与真相之间，他们必须抢跑——而档案解封那刻，前三章将率先现世。</p>
       <div class="gdate">预定解封 · 2026-09-23　起点中文网第一章发布</div>
       <div class="countdown">
         <div class="cd-box"><b id="cd-d">--</b><span>天</span></div>
@@ -598,7 +645,7 @@
         <div class="cd-box"><b id="cd-m">--</b><span>分</span></div>
         <div class="cd-box"><b id="cd-s">--</b><span>秒</span></div>
       </div>
-      <div class="ghint">档案将于解封时刻自动公开全部内容</div>
+      <div class="ghint">解封后率先公开前三章 · 余下内容随连载逐章解密</div>
     </div>
   </div>
 
@@ -651,7 +698,9 @@
     var target=new Date('2026-09-23T00:00:00');
     function pad(n){return (n<10?'0':'')+n;}
     function reveal(){
-      document.documentElement.classList.remove('sealed');
+      var d=document.documentElement;
+      d.classList.remove('sealed');
+      d.classList.add('partial');   // 解封即上线：仅公开前三章，余下待逐章解密
       document.querySelectorAll('.reveal').forEach(function(e){e.classList.add('in');});
     }
     function tick(){
