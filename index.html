@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>被抹掉的现场 · 解密档案</title>
+<style>
+  :root{
+    --void:#07070a;
+    --void-2:#0d0d12;
+    --ink:#111116;
+    --paper:#e9e3d6;
+    --paper-dim:#b7b0a1;
+    --ash:#6f6a60;
+    --seal:#b23a32;
+    --seal-soft:#c9544a;
+    --gold:#c9a86a;
+    --jade:#6fae8f;
+    --line:rgba(233,227,214,.12);
+    --serif:"Songti SC","STSong","SimSun","Noto Serif SC",serif;
+    --kai:"Kaiti SC","STKaiti","KaiTi",var(--serif);
+    --mono:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--void);
+    color:var(--paper);
+    font-family:var(--serif);
+    line-height:1.9;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    cursor:default;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(120% 80% at 50% -10%, rgba(178,58,50,.10), transparent 55%),
+      radial-gradient(100% 60% at 50% 110%, rgba(40,30,55,.18), transparent 60%),
+      radial-gradient(60% 60% at 80% 30%, rgba(20,20,30,.6), transparent 70%);
+  }
+  .wrap{position:relative;z-index:2;max-width:1080px;margin:0 auto;padding:0 28px}
+  a{color:inherit;text-decoration:none}
+
+  /* ===== 祟 cursor mist ===== */
+  #sui{
+    position:fixed;top:0;left:0;width:230px;height:230px;z-index:60;pointer-events:none;
+    margin:-115px 0 0 -115px;border-radius:50%;mix-blend-mode:screen;
+    background:radial-gradient(circle, rgba(10,8,14,.0) 30%, rgba(8,6,12,.55) 60%, rgba(0,0,0,.0) 72%);
+    transition:opacity .6s;opacity:0;
+    filter:blur(6px);
+  }
+  #sui::after{
+    content:"";position:absolute;inset:38%;border-radius:50%;
+    background:radial-gradient(circle,rgba(0,0,0,.9),transparent 70%);
+    filter:blur(3px);
+  }
+
+  /* ===== HERO ===== */
+  header.hero{
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;position:relative;padding:120px 20px 60px;
+  }
+  .seal{
+    font-family:var(--kai);font-size:14px;letter-spacing:.5em;color:var(--seal-soft);
+    border:1px solid var(--seal);padding:7px 14px 7px 18px;border-radius:3px;
+    transform:rotate(-3deg);opacity:.85;margin-bottom:38px;
+    box-shadow:0 0 30px rgba(178,58,50,.25) inset;
+  }
+  .vtitle{
+    writing-mode:vertical-rl;text-orientation:upright;
+    font-family:var(--kai);font-weight:700;font-size:clamp(58px,12vw,128px);
+    letter-spacing:.16em;line-height:1.05;color:var(--paper);
+    text-shadow:0 0 40px rgba(0,0,0,.6);
+    margin:0 auto;
+  }
+  .vtitle .glitch{color:var(--paper);position:relative}
+  .sub-en{
+    margin-top:30px;font-family:var(--mono);font-size:13px;letter-spacing:.55em;
+    color:var(--ash);text-transform:uppercase;
+  }
+  .tagline{
+    margin-top:26px;max-width:560px;color:var(--paper-dim);font-size:16px;line-height:2.1;
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:22px 8px;
+  }
+  .scroll-hint{
+    position:absolute;bottom:34px;left:50%;transform:translateX(-50%);
+    color:var(--ash);font-family:var(--mono);font-size:11px;letter-spacing:.3em;
+    animation:bob 2.6s ease-in-out infinite;
+  }
+  @keyframes bob{0%,100%{transform:translate(-50%,0);opacity:.4}50%{transform:translate(-50%,8px);opacity:.9}}
+
+  /* ===== section frame ===== */
+  section{padding:96px 0;position:relative}
+  .sec-head{display:flex;align-items:baseline;gap:18px;margin-bottom:46px;border-bottom:1px solid var(--line);padding-bottom:16px}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--seal-soft);letter-spacing:.2em}
+  .sec-title{font-family:var(--kai);font-size:clamp(26px,4vw,38px);letter-spacing:.18em;color:var(--paper)}
+  .sec-title .en{font-family:var(--mono);font-size:11px;color:var(--ash);letter-spacing:.3em;display:block;margin-top:6px;font-weight:400}
+
+  p.lead{color:var(--paper-dim);font-size:17px;line-height:2.2;max-width:760px}
+  .red{color:var(--seal-soft)}
+
+  /* reveal on scroll */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity 1.1s ease,transform 1.1s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ===== 序 intro ===== */
+  .intro-card{
+    background:linear-gradient(180deg,rgba(20,20,28,.6),rgba(12,12,18,.4));
+    border:1px solid var(--line);border-left:3px solid var(--seal);
+    padding:34px 36px;max-width:780px;position:relative;
+  }
+  .intro-card .stamp{
+    position:absolute;top:18px;right:24px;font-family:var(--kai);color:var(--seal);
+    border:2px solid var(--seal);padding:6px 10px;border-radius:4px;font-size:13px;
+    transform:rotate(8deg);opacity:.7;letter-spacing:.2em;
+  }
+
+  /* ===== 六卷 timeline ===== */
+  .vol-grid{display:grid;grid-template-columns:1fr;gap:0;position:relative}
+  .vol-grid::before{content:"";position:absolute;left:23px;top:14px;bottom:14px;width:1px;background:linear-gradient(var(--line),transparent)}
+  .vol{
+    display:grid;grid-template-columns:48px 1fr;gap:22px;padding:22px 0;position:relative;
+  }
+  .vol .dot{width:14px;height:14px;border-radius:50%;background:var(--void);border:2px solid var(--seal-soft);margin:8px 0 0 16px;box-shadow:0 0 14px rgba(178,58,50,.5);position:relative;z-index:2}
+  .vol .v-body{background:linear-gradient(180deg,rgba(22,22,30,.55),rgba(12,12,18,.3));border:1px solid var(--line);padding:24px 28px;transition:border-color .5s,transform .5s}
+  .vol:hover .v-body{border-color:rgba(178,58,50,.5);transform:translateX(6px)}
+  .vol h3{font-family:var(--kai);font-size:23px;letter-spacing:.14em;margin-bottom:12px;color:var(--paper)}
+  .vol h3 .idx{color:var(--seal-soft);font-family:var(--mono);font-size:13px;margin-right:12px;letter-spacing:.1em}
+  .vol p{color:var(--paper-dim);font-size:15.5px;line-height:2}
+
+  /* ===== characters ===== */
+  .cast{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+  .char{
+    border:1px solid var(--line);background:linear-gradient(180deg,rgba(20,20,28,.6),rgba(11,11,16,.45));
+    padding:24px 24px 26px;position:relative;overflow:hidden;transition:border-color .5s,transform .5s;
+  }
+  .char:hover{border-color:rgba(201,168,106,.45);transform:translateY(-4px)}
+  .char .role{font-family:var(--mono);font-size:11px;letter-spacing:.25em;color:var(--seal-soft);margin-bottom:10px;text-transform:uppercase}
+  .char h4{font-family:var(--kai);font-size:26px;letter-spacing:.12em;margin-bottom:4px}
+  .char .en{font-family:var(--mono);font-size:10px;color:var(--ash);letter-spacing:.2em;margin-bottom:16px}
+  .char .field{font-size:14.5px;line-height:1.95;color:var(--paper-dim);margin-top:10px}
+  .char .field b{color:var(--gold);font-weight:400;font-family:var(--kai);margin-right:6px}
+  .char .mask{
+    background:var(--ink);color:transparent;user-select:none;border-radius:2px;
+    padding:0 4px;transition:background .6s,color .6s;cursor:help;position:relative;
+  }
+  .char .mask::after{content:"密";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:var(--ash);font-family:var(--mono);font-size:10px;letter-spacing:.1em;opacity:.6}
+  .char .mask:hover{background:transparent;color:var(--paper)}
+  .char .mask:hover::after{opacity:0}
+  .char::before{content:"";position:absolute;right:-30px;top:-30px;width:90px;height:90px;border:1px solid var(--line);border-radius:50%;opacity:.5}
+
+  /* ===== 法则 encrypted ===== */
+  .law{border-left:2px solid var(--seal);padding:18px 22px;margin-bottom:16px;background:rgba(14,14,20,.4);position:relative}
+  .law .code{font-family:var(--mono);font-size:11px;color:var(--seal-soft);letter-spacing:.2em}
+  .law h4{font-family:var(--kai);font-size:20px;letter-spacing:.1em;margin:6px 0 10px;color:var(--paper)}
+  .law p{color:var(--paper-dim);font-size:15px;line-height:2}
+  .law .src{font-family:var(--mono);font-size:10px;color:var(--ash);margin-top:8px;letter-spacing:.1em}
+
+  /* ===== chapters progress ===== */
+  .chap-intro{display:flex;gap:40px;align-items:center;flex-wrap:wrap;margin-bottom:46px}
+  .ring{position:relative;width:150px;height:150px;flex:0 0 auto}
+  .ring svg{transform:rotate(-90deg)}
+  .ring .center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .ring .center b{font-family:var(--kai);font-size:34px;color:var(--gold)}
+  .ring .center span{font-family:var(--mono);font-size:11px;color:var(--ash);letter-spacing:.15em}
+  .chap-meta{flex:1;min-width:240px}
+  .chap-meta h3{font-family:var(--kai);font-size:22px;letter-spacing:.12em;margin-bottom:12px}
+  .chap-meta p{color:var(--paper-dim);font-size:15px;line-height:2}
+  .bar{height:6px;border-radius:3px;background:rgba(233,227,214,.08);overflow:hidden;margin-top:16px}
+  .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--seal),var(--gold));transition:width 1.4s ease}
+
+  .chap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:18px}
+  .chap{
+    border:1px solid var(--line);background:linear-gradient(180deg,rgba(20,20,28,.55),rgba(11,11,16,.4));
+    padding:22px 24px;transition:border-color .5s,transform .5s;
+  }
+  .chap:hover{border-color:rgba(178,58,50,.5);transform:translateY(-4px)}
+  .chap .topx{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  .chap .num{font-family:var(--mono);font-size:11px;color:var(--gold);border:1px solid var(--gold);border-radius:4px;padding:4px 10px;letter-spacing:.1em}
+  .chap h3{font-family:var(--kai);font-size:21px;letter-spacing:.12em;color:var(--paper)}
+  .chap ul{list-style:none;display:grid;gap:10px;margin-top:4px}
+  .chap li{font-size:14px;color:var(--paper-dim);padding-left:18px;position:relative;line-height:1.85}
+  .chap li::before{content:"";position:absolute;left:0;top:9px;width:6px;height:6px;background:var(--seal);transform:rotate(45deg);opacity:.8}
+  .chap li.hook::before{background:var(--gold)}
+
+  /* ===== clues board ===== */
+  .clue-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+  .clue{
+    border:1px solid var(--line);background:rgba(14,14,20,.4);
+    padding:20px 22px;display:flex;gap:16px;align-items:flex-start;transition:border-color .5s,transform .5s;
+  }
+  .clue:hover{border-color:rgba(201,168,106,.45);transform:translateY(-3px)}
+  .clue .idx{font-family:var(--mono);font-size:28px;color:var(--seal-soft);line-height:1;flex:0 0 auto;opacity:.9}
+  .clue .body b{font-family:var(--kai);font-size:17px;letter-spacing:.08em;color:var(--paper);display:block;margin-bottom:6px}
+  .clue .body p{font-size:14px;color:var(--paper-dim);line-height:1.8}
+  .clue .tag{display:inline-block;margin-top:10px;font-family:var(--mono);font-size:10px;color:var(--gold);border:1px solid var(--line);border-radius:4px;padding:3px 8px;margin-right:6px;letter-spacing:.1em}
+
+  /* ===== future ===== */
+  .future-card{
+    border:1px solid var(--line);background:linear-gradient(180deg,rgba(20,20,28,.55),rgba(11,11,16,.4));
+    padding:30px 34px;
+  }
+  .future-card h3{font-family:var(--kai);font-size:20px;letter-spacing:.12em;color:var(--gold);margin-bottom:16px}
+  .future-card ul{list-style:none;display:grid;gap:11px}
+  .future-card li{font-size:15px;color:var(--paper-dim);padding-left:18px;position:relative;line-height:1.9}
+  .future-card li::before{content:"›";position:absolute;left:0;color:var(--seal-soft);font-weight:700}
+
+  /* ===== finale ===== */
+  .finale{text-align:center;padding:120px 20px}
+  .finale .void-line{font-family:var(--kai);font-size:clamp(22px,4vw,34px);letter-spacing:.2em;color:var(--paper-dim);line-height:2.4;transition:color 1.4s,opacity 1.4s}
+  .finale .void-line.fade{color:rgba(233,227,214,.08);opacity:.5}
+  .finale .echo{margin-top:40px;color:var(--ash);font-family:var(--mono);font-size:12px;letter-spacing:.3em}
+  .empty-page{
+    margin:60px auto 0;width:54px;height:72px;border:1px solid var(--line);position:relative;
+    background:repeating-linear-gradient(180deg,transparent,transparent 11px,rgba(233,227,214,.05) 12px);
+  }
+  .empty-page::after{content:"史册永缺之一页";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-90deg);white-space:nowrap;font-family:var(--kai);font-size:11px;color:var(--ash);letter-spacing:.3em}
+
+  footer{padding:40px 0 70px;text-align:center;color:var(--ash);font-family:var(--mono);font-size:11px;letter-spacing:.2em;border-top:1px solid var(--line)}
+
+  @media(max-width:760px){
+    .cast,.clue-grid,.chap-grid{grid-template-columns:1fr}
+    .vol{grid-template-columns:40px 1fr;gap:14px}
+    .chap-intro{flex-direction:column;align-items:flex-start}
+  }
+</style>
+</head>
+<body>
+<div id="sui"></div>
+
+<header class="hero">
+  <div class="seal">绝 密 · 档 案 已 解 封</div>
+  <div class="vtitle" id="vtitle" data-text="被抹掉的现场">
+    <span class="glitch" data-final="被抹掉的现场">被抹掉的现场</span>
+  </div>
+  <div class="sub-en">THE&nbsp;ERASED&nbsp;SCENE</div>
+  <p class="tagline">
+    每一页被改写的历史，都是下一处作案的预告。<br>
+    三兄弟能看见「没改完」的痕迹——<br>
+    而你能看见的，只有这卷被揭开一角的档案。
+  </p>
+  <div class="scroll-hint">↓ 向下翻阅 · 触碰文字以揭开密文</div>
+</header>
+
+<div class="wrap">
+
+  <!-- 序 -->
+  <section id="intro">
+    <div class="sec-head">
+      <span class="sec-no">00</span>
+      <span class="sec-title">序·案情摘要<span class="en">CASE BRIEF</span></span>
+    </div>
+    <div class="intro-card reveal">
+      <span class="stamp">阅后焚</span>
+      <p class="lead">
+        黄巾起义疑点重重。张角三兄弟发现：<span class="red">每一处被篡改的历史，都对应一次「祟」的作案预告</span>。
+        他们必须在公开的谎言与真相之间抢跑，一路追查到「狤」操纵的「戱」身上。
+      </p>
+      <p class="lead" style="margin-top:18px;color:var(--ash);font-size:14.5px">
+        当前进度：卷壹 第 <b class="red">6 / 15</b> 章已完成。本档案由资料库原件逐字转写，结构完整；标「密」之处，将光标停于其上即可显形。
+      </p>
+    </div>
+  </section>
+
+  <!-- 六卷 -->
+  <section id="volumes">
+    <div class="sec-head">
+      <span class="sec-no">01</span>
+      <span class="sec-title">六卷·被改写的历史<span class="en">SIX VOLUMES / SIX REWRITES</span></span>
+    </div>
+    <div class="vol-grid">
+      <div class="vol reveal"><div class="dot"></div><div class="v-body">
+        <h3><span class="idx">卷壹</span>钜鹿疑云</h3>
+        <p>从高二一班开学第一课切入。历史老师讲述黄巾起义时，投影仪里起义军画像中的祟当众动起来，只有三兄弟看得见。放学后三人目击祟的暴行并向阿瑞斯铠警报案，却被归档为幻觉；张角头昏倒地，在「未被记录的历史」中遇见前世张角，得知起义真正原因与道术、术袍的来处。三人破译第一桩被改写的历史——黄巾起义那页，确立「每一页被改写的历史＝祟的下一处作案预告」。张角获得第一段道术残篇。卷末三人合力拦截第一只祟，但狤……</p>
+      </div></div>
+      <div class="vol reveal"><div class="dot"></div><div class="v-body">
+        <h3><span class="idx">卷贰</span>查无此案</h3>
+        <p>系统战全面展开。张宝以录屏、截图、单号与舆情窗口为兄弟们的证词打通「报案—立案」通道，屡被「查无此案」归档驳回；张角在档案层追读第二、三处被改写的历史——阿瑞斯史册中皮尔王时代的旧页，发现狤在系统性重写阿瑞斯正史，把祟的每一次杀戮伪装成理所当然的过去。张梁与两位兄长并肩迎战，三人正式形成「考据—留证—拦截」的作战链。卷末狤借戱之身当众抹掉一整卷史书并发布「历史修正公告」，将三兄弟列为通缉对象。</p>
+      </div></div>
+      <div class="vol reveal"><div class="dot"></div><div class="v-body">
+        <h3><span class="idx">卷叁</span>被篡改的王朝</h3>
+        <p>三兄弟潜入阿瑞斯宫廷与档案层，追查戱被附身的实证；道术残篇集齐大半，术袍部件陆续成形。其间揭示祟的真正来源：狤为域外邪魔，借戱之躯篡改史册、实施暴政。张角在「揭穿狤」与「亲手杀死被附身的活人戱」之间被反复拉扯，越接近真相越被当作编造者。卷末三人拿到狤操控戱的第一件物证，但戱濒临被彻底吞噬，是否动手成为必须作出的抉择。</p>
+      </div></div>
+      <div class="vol reveal"><div class="dot"></div><div class="v-body">
+        <h3><span class="idx">卷肆</span>黄天当立</h3>
+        <p>前世张角所托道术全貌展开：太平道三十六方、苍天已死黄天当立——当年黄巾军正是以道术封印了狤的前身，如今封印松动，历史才会被大段改写。三兄弟集齐道术残篇，获得完整的术袍（不属于阿瑞斯科技的异界铠甲），第一次能与祟军团正面抗衡，反击战全面打响。卷末狤撕破伪装，宣告要借戱之躯让阿瑞斯的历史「清零重来」。</p>
+      </div></div>
+      <div class="vol reveal"><div class="dot"></div><div class="v-body">
+        <h3><span class="idx">卷伍</span>最后的道术</h3>
+        <p>决战前奏。随着战斗深入，三兄弟逐渐意识到要彻底消灭邪魔，必须牺牲自我、逆转时空；张角在「未被改写的历史」的最后一页，读出黄巾起义真正的目的与代价，以及道术最终要兑换的牺牲。兄弟三人各自完成守护彼此与黎民苍生的信念准备（情感重心在兄弟情与师生、苍生之间，不设爱情线）。卷末，与狤、戱的最后一战开启。</p>
+      </div></div>
+      <div class="vol reveal"><div class="dot"></div><div class="v-body">
+        <h3><span class="idx">卷陆</span>归零</h3>
+        <p>终局对决。三兄弟在与邪魔狤、戱的最终对决中选择牺牲自我，以道术逆转阿瑞斯时空，将邪魔的破坏力限制在时空裂缝中，拯救黎民苍生。当他们从时空紊流中消失时，阿瑞斯的时空回到历史老师在高二一班讲述黄巾起义的时间节点——教科书中的黄巾起义历史节点已经消失，高二一班的师生对张角三兄弟的记忆也随之消失，仿佛他们从未存在。全书在史册永远空缺的一页与无名英雄的余响中收束。</p>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- 群像 -->
+  <section id="cast">
+    <div class="sec-head">
+      <span class="sec-no">02</span>
+      <span class="sec-title">群像·在册人物<span class="en">DOSSIER / PERSONS OF INTEREST</span></span>
+    </div>
+    <div class="cast">
+      <div class="char reveal">
+        <div class="role">PROTAGONIST · 考据与传承</div>
+        <h4>张角</h4><div class="en">ZHANG JIAO</div>
+        <div class="field"><b>外貌</b>高二生身形，眉目端正，常戴细框眼镜，校服领口别着历史课代表徽章；说话前习惯先推一下眼镜。</div>
+        <div class="field"><b>背景</b>高二一班班长兼历史课代表。负责考据、破译史册、<span class="mask">接住道术传承</span>。</div>
+        <div class="field"><b>当前状态</b>已获得第一段道术残篇，能感知「被改写历史」的笔迹差异，可用残篇之力<span class="mask">短暂逼退祟</span>。</div>
+      </div>
+      <div class="char reveal">
+        <div class="role">SUPPORTING · 周旋与留证</div>
+        <h4>张宝</h4><div class="en">ZHANG BAO</div>
+        <div class="field"><b>外貌</b>比大哥矮半个头，圆脸，笑容讨喜，校服袖口总是挽起，手机不离手。</div>
+        <div class="field"><b>背景</b>开局与兄长同校同班，事发后负责对外周旋与<span class="mask">留证</span>。</div>
+        <div class="field"><b>当前状态</b>建立「待办条目」系统，擅长信息检索、备份、单号证据链；书包里常备证物袋、干扰器、铁丝等<span class="mask">非合规工具</span>。</div>
+      </div>
+      <div class="char reveal">
+        <div class="role">SUPPORTING · 现场反应</div>
+        <h4>张梁</h4><div class="en">ZHANG LIANG</div>
+        <div class="field"><b>外貌</b>身形最结实，跑得快，校服袖子总被扯破一角，手腕上缠着旧护腕。</div>
+        <div class="field"><b>背景</b>开局为第一个在画像里看见祟动起来的目击者，负责<span class="mask">现场反应</span>。</div>
+        <div class="field"><b>当前状态</b>已被祟两次擦中，分别丢失「一句话」与「小学春游路线」等记忆，身体出现<span class="mask">反噬性虚脱</span>。</div>
+      </div>
+      <div class="char reveal">
+        <div class="role">SUPPORTING · 历史残影</div>
+        <h4>前世张角</h4><div class="en">PAST-LIFE ZHANG JIAO</div>
+        <div class="field"><b>外貌</b>身披苍黄术袍（后世术袍原形），面容清癯，左臂以黄巾系缚，衣角有被火燎过的焦痕。</div>
+        <div class="field"><b>背景</b>已逝之人，以历史残影显形；第 2 章首次现身，向现世张角揭示<span class="mask">未被记录的真相</span>。</div>
+        <div class="field"><b>已揭示</b>黄巾起义真正起因是反抗狤一派邪魔；道术残篇每破译一桩被改写历史解锁一段；术袍成形后可正面抗衡祟军团；要揭穿狤必须亲手了结被附身的活人戱。</div>
+      </div>
+      <div class="char reveal">
+        <div class="role">ANTAGONIST · 域外邪魔</div>
+        <h4>狤</h4><div class="en">JÍ</div>
+        <div class="field"><b>外貌</b>本体无固定形貌，常以一缕黑雾缠绕戱右腕显现；雾中偶浮獠牙与环目。</div>
+        <div class="field"><b>背景</b>已附身戱并执掌史册改写，把暴政伪装成民众习以为常的过去；<span class="mask">黄巾起义那页是唯一没改完的地方</span>。</div>
+      </div>
+      <div class="char reveal">
+        <div class="role">ANTAGONIST · 被附身者</div>
+        <h4>戱</h4><div class="en">XÌ</div>
+        <div class="field"><b>外貌</b>高挑贵气，金发中分，常着深色统治者礼服，右腕系一条黑缎掩住狤的寄居处；双目平静到近乎空茫。</div>
+        <div class="field"><b>背景</b>已被狤附身，施行暴政而被史册美化为合法；本我意志<span class="mask">沉睡</span>，第 2 章起成为三兄弟盯上的「揭穿对象」。</div>
+      </div>
+      <div class="char reveal">
+        <div class="role">ENFORCER · 幽冥魔</div>
+        <h4>祟</h4><div class="en">SUÌ</div>
+        <div class="field"><b>外貌</b>一团墨色的幽冥魔形，行动无声，颚部可张开成咬住记忆的空腔；在画像中现形时，是唯一不合比例的扭曲黑影。</div>
+        <div class="field"><b>背景</b>狤麾下的普通执行者，在三兄弟报案中被称作幽冥魔。负责在被改写的历史现场作案，随后由假象系统将其抹成<span class="mask">理所当然的过去</span>。</div>
+      </div>
+      <div class="char reveal">
+        <div class="role">MENTOR · 师长</div>
+        <h4>历史老师（沈老师）</h4><div class="en">THE HISTORY TEACHER</div>
+        <div class="field"><b>外貌</b>花白鬓角，戴老花镜，指节常有粉笔灰，教案边角贴满旧史复印页。</div>
+        <div class="field"><b>背景</b>开学第一课讲黄巾起义；对张角「书上没写的」回答表现出某种确认式沉默，<span class="mask">疑似知晓部分真相</span>。</div>
+      </div>
+      <div class="char reveal">
+        <div class="role">GREY · 体制内暗线</div>
+        <h4>秦述</h4><div class="en">QIN SHU</div>
+        <div class="field"><b>外貌</b>标准阿瑞斯铠警制服，面甲常掀开，眼角有旧伤，习惯把笔录册立在胸口挡镜头。</div>
+        <div class="field"><b>背景</b>第 2 章受理三兄弟报案并归档为「查无此案」；三年前是王城卫队随队记录员（直属皮尔王血裔）；第 5 章透露碑座封印、太平道「逆龙」云纹、旧档库地址，立场暧昧，可能是<span class="mask">体制内的暗线援助者</span>。</div>
+      </div>
+      <div class="char reveal">
+        <div class="role">VICTIM · 第一例人证</div>
+        <h4>陈屿</h4><div class="en">CHEN YU</div>
+        <div class="field"><b>背景</b>插班生，第 1 章被祟咬掉「讨厌历史」及「不吃甜排骨」等记忆，成为第一起可验证的<span class="mask">受害案例</span>。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 法则 -->
+  <section id="laws">
+    <div class="sec-head">
+      <span class="sec-no">03</span>
+      <span class="sec-title">法则·世界运转的暗码<span class="en">WORLD RULES / ENCRYPTED</span></span>
+    </div>
+    <div class="law reveal">
+      <div class="code">RULE-00 · CORE_HOOK</div>
+      <h4>核心世界钩子</h4>
+      <p>阿瑞斯之外，狤借戱之躯改写史册，把祟的每一次杀戮伪装成理所当然的过去；<span class="red">黄巾起义那页是唯一一处它没来得及改完的地方</span>。</p>
+    </div>
+    <div class="law reveal">
+      <div class="code">RULE-01 · REWRITE</div>
+      <h4>史册改写规则</h4>
+      <p>狤每次改写史册必须对应一次祟的作案（杀戮或吞噬记忆），改写后现代人的记忆与物证同步失效；只有张角三兄弟因前世印记能看到「未改完」的痕迹。</p>
+    </div>
+    <div class="law reveal">
+      <div class="code">RULE-02 · RESIDUE</div>
+      <h4>物证残留规则</h4>
+      <p>改写无法抹除「作案现场的原物」（如祟咬穿记忆时留下的物理痕迹、碑石碎片、白布拓片等），这是三兄弟可追查的锚点。</p>
+    </div>
+    <div class="law reveal">
+      <div class="code">RULE-03 · MARK</div>
+      <h4>前世印记规则</h4>
+      <p>三兄弟与东汉黄巾领袖存在灵魂对应，故对被篡改历史有免疫感知，也是唯一能接住道术与术袍的人。</p>
+    </div>
+    <div class="law reveal">
+      <div class="code">RULE-04 · POWER</div>
+      <h4>力量体系</h4>
+      <p>两系并行：阿瑞斯科技系（铠甲、铠警）与异界道术系（术袍、道术残篇）。三兄弟走道术系，专克祟；每破译一桩被改写的史册即获得一段道术残篇，战力与破译进度同步增长。</p>
+    </div>
+    <div class="law reveal">
+      <div class="code">RULE-05 · HISTORY</div>
+      <h4>历史沿革</h4>
+      <p>真实黄巾起义的动机是反抗操纵朝廷的域外邪魔，被官方史册抹黑为「妖道造反」；每处被改写的黄巾史页对应一次祟的作案预告，破译一处即预判下一处。末章逆转时空后，黄巾起义从教科书彻底消失，高二一班师生对三兄弟的记忆也随之消失。</p>
+    </div>
+    <div class="law reveal">
+      <div class="code">RULE-06 · LOCATIONS</div>
+      <h4>关键场域</h4>
+      <p>市立第一高中（高二一班）· 市立第一高中档案室 · 学校机房 · 阿瑞斯铠警分局舆情窗口 · 阿瑞斯铠警总局及旧档库 · 市图书馆广场 / 阿瑞斯建城碑 · 阿瑞斯王庭（戱的宫闱）· 未被记录的历史（意识交接层）</p>
+    </div>
+  </section>
+
+  <!-- 章节进度 -->
+  <section id="chapters">
+    <div class="sec-head">
+      <span class="sec-no">04</span>
+      <span class="sec-title">笔录·已完成章节<span class="en">CHAPTERS · 6 / 15</span></span>
+    </div>
+    <div class="chap-intro reveal">
+      <div class="ring">
+        <svg width="150" height="150">
+          <circle cx="75" cy="75" r="62" fill="none" stroke="rgba(233,227,214,.08)" stroke-width="12"/>
+          <circle id="ringFill" cx="75" cy="75" r="62" fill="none" stroke="url(#rg)" stroke-width="12" stroke-linecap="round" stroke-dasharray="389.6" stroke-dashoffset="389.6"/>
+          <defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b23a32"/><stop offset="1" stop-color="#c9a86a"/></linearGradient></defs>
+        </svg>
+        <div class="center"><b>6/15</b><span>已规划</span></div>
+      </div>
+      <div class="chap-meta">
+        <h3>卷壹 · 钜鹿疑云</h3>
+        <p>当前完成第 1–6 章，第三人称叙事。</p>
+        <div class="bar"><i id="progBar"></i></div>
+      </div>
+    </div>
+    <div class="chap-grid reveal">
+      <div class="chap"><div class="topx"><span class="num">第 01 章</span><h3>被改过的课本</h3></div>
+        <ul>
+          <li>开学第一课黄巾起义插图中祟现形，仅三兄弟可见；祟隔着投影咬掉前排陈屿的一段记忆。</li>
+          <li>规则确立：三兄弟可见、仪器不可摄、物证残留。</li>
+          <li class="hook">章末钩子：张角发现课本第 9 页有「改写笔迹」，并听见千年前的声音后昏倒。</li>
+        </ul></div>
+      <div class="chap"><div class="topx"><span class="num">第 02 章</span><h3>幽冥魔现形</h3></div>
+        <ul>
+          <li>放学后连廊校史照片墙祟再次现形，咬掉一名初中生对自己名字的认知；三人赴铠警分局报案，被秦述以「查无此案」归档。</li>
+          <li>张角进入「未被记录的历史」，遇见前世张角，获得第一段道术残篇。</li>
+          <li class="hook">核心规则：每一页被改写的历史＝祟的下一处作案预告。</li>
+        </ul></div>
+      <div class="chap"><div class="topx"><span class="num">第 03 章</span><h3>第一页被改写的历史</h3></div>
+        <ul>
+          <li>三兄弟潜入学校档案室，发现校史碑文被改写（「甲子之年，承黄天之佑」→「地方乡绅襄助」）。</li>
+          <li>张角首次用残篇逼退祟两秒，但录像与备份仍被同步抹除。</li>
+          <li class="hook">章末钩子：张宝发现「皮尔王一世敕建」线索。</li>
+        </ul></div>
+      <div class="chap"><div class="topx"><span class="num">第 04 章</span><h3>第一场拦截</h3></div>
+        <ul>
+          <li>市图书馆建城碑被「维护」围起，三人攀脚手架，目击碑文实时被改写为「皮尔王立，黄天当灭」。</li>
+          <li>张角以残篇逼退祟救下工人；夺得带朱砂云纹的碑石碎片（现场原物）。</li>
+          <li class="hook">章末落地：决定从「追现场」转向「追狤所附身的躯壳」。</li>
+        </ul></div>
+      <div class="chap"><div class="topx"><span class="num">第 05 章</span><h3>狤的反击</h3></div>
+        <ul>
+          <li>张宝追查维护公司，发现其与铠警系统及王城卫队关联；三人再访秦述，获得「逆龙云纹」、碑座封印、旧档库地址等线索。</li>
+          <li>祟从建城碑中大规模涌出，张梁被咬掉一句关键话语，张角以残篇驱动石片暂时稳固封印。</li>
+          <li class="hook">章末落地：三人付出记忆代价守住一城，旧档库成为下一站。</li>
+        </ul></div>
+      <div class="chap"><div class="topx"><span class="num">第 06 章</span><h3>档案室的第二页</h3></div>
+        <ul>
+          <li>潜入阿瑞斯铠警总局旧档库「戊字库」，发现《崇文书院志》中地契被改写（「黄野旧址、太平道遗脉」被改为普通新址）。</li>
+          <li>祟群镇守档案，张梁以记忆为代价抵挡；张角用校服白布拓下关键字迹带走第二份现场原物证据。</li>
+          <li class="hook">章末落地：收到画有逆龙云纹的纸条，约见校史墙，神秘援助者出现。</li>
+        </ul></div>
+    </div>
+  </section>
+
+  <!-- 伏笔 -->
+  <section id="clues">
+    <div class="sec-head">
+      <span class="sec-no">05</span>
+      <span class="sec-title">暗码·待回收伏笔<span class="en">LOOSE ENDS / PENDING</span></span>
+    </div>
+    <div class="clue-grid reveal">
+      <div class="clue"><div class="idx">01</div><div class="body"><b>陈屿与初一学生</b><p>早期受害者，可作为「记忆被吃」的人证，但证据会随改写失效。</p><span class="tag">人证</span></div></div>
+      <div class="clue"><div class="idx">02</div><div class="body"><b>课本第 9 页黑墨</b><p>黄巾起义那页狤没改完，是全书第一个异常锚点。</p><span class="tag">锚点</span></div></div>
+      <div class="clue"><div class="idx">03</div><div class="body"><b>建城碑朱砂云纹石片</b><p>半毁的封印碎片，已证实碑座封印存在且松动。</p><span class="tag">物证</span></div></div>
+      <div class="clue"><div class="idx">04</div><div class="body"><b>崇文书院地契拓片</b><p>证明学校建在「黄野」旧址之上，是太平道封印现场之一。</p><span class="tag">物证</span></div></div>
+      <div class="clue"><div class="idx">05</div><div class="body"><b>秦述</b><p>体制内灰角色，旧伤、笔录册挡监控、王城卫队背景，可能持续提供暗线情报。</p><span class="tag">暗线</span></div></div>
+      <div class="clue"><div class="idx">06</div><div class="body"><b>逆龙云纹纸条</b><p>约见校史墙，援助者身份不明。</p><span class="tag">悬念</span></div></div>
+      <div class="clue"><div class="idx">07</div><div class="body"><b>张梁丢失的「那句话」</b><p>可能关系到后续破解危机的关键。</p><span class="tag">记忆</span></div></div>
+      <div class="clue"><div class="idx">08</div><div class="body"><b>沈老师</b><p>对张角的异常回答表现出确认式沉默，是否知晓太平道 / 狤的真相待揭示。</p><span class="tag">师长</span></div></div>
+      <div class="clue"><div class="idx">09</div><div class="body"><b>铠警系统将三兄弟列为关注对象</b><p>旧档库入侵事件可能引发反扑。</p><span class="tag">危机</span></div></div>
+      <div class="clue"><div class="idx">10</div><div class="body"><b>术袍部件</b><p>尚未出现，预计后续破译更多历史后逐步解锁。</p><span class="tag">成长</span></div></div>
+    </div>
+  </section>
+
+  <!-- 后续 -->
+  <section id="future">
+    <div class="sec-head">
+      <span class="sec-no">06</span>
+      <span class="sec-title">下一步·待展开方向<span class="en">WHAT'S NEXT</span></span>
+    </div>
+    <div class="future-card reveal">
+      <h3>第 7 章 · 暂定《被当作编造者》</h3>
+      <ul>
+        <li>旧档库事件引发校方 / 铠警约谈</li>
+        <li>三兄弟被当作编造者或肇事者</li>
+        <li>校史墙约见神秘人</li>
+        <li>学校地底封印出现新异动</li>
+      </ul>
+      <h3 style="margin-top:24px">卷壹后续关键词</h3>
+      <ul>
+        <li>史书的缺口、异界术袍、戱的暴政</li>
+        <li>牺牲的代价、靠近戱、公开对质</li>
+        <li>决战前夜、第一轮对决</li>
+      </ul>
+      <h3 style="margin-top:24px">待强化主题</h3>
+      <ul>
+        <li>兄弟情、师生 / 苍生守护、记忆与真相</li>
+        <li>体制黑幕、牺牲与无名</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 余响 -->
+  <section class="finale" id="finale">
+    <div class="void-line" id="voidLine">
+      史册永远空缺的一页<br>
+      与无名英雄的余响
+    </div>
+    <div class="empty-page"></div>
+    <div class="echo">— 全书在此收束 · 记忆在此归零 —</div>
+  </section>
+
+  <footer>被抹掉的现场 · 解密档案 / 资料库原件可视化 · 悬停密文以揭示</footer>
+</div>
+
+<script>
+  // 祟 cursor mist
+  const sui=document.getElementById('sui');
+  let sx=0,sy=0,tx=0,ty=0;
+  window.addEventListener('mousemove',e=>{tx=e.clientX;ty=e.clientY;sui.style.opacity='1';});
+  window.addEventListener('mouseleave',()=>sui.style.opacity='0');
+  (function loop(){sx+=(tx-sx)*.12;sy+=(ty-sy)*.12;sui.style.transform=`translate(${sx}px,${sy}px)`;requestAnimationFrame(loop);})();
+
+  // decode hero on load
+  const glyphs="被抹掉现的场祟狤戱史册真相黄天当立□〤〇◇#%&@*";
+  function decode(el){
+    const final=el.dataset.final;let frame=0;const total=26;
+    const id=setInterval(()=>{
+      let out="";
+      for(let i=0;i<final.length;i++){
+        if(i<(frame/total)*final.length){out+=final[i];}
+        else{out+=glyphs[Math.floor(Math.random()*glyphs.length)];}
+      }
+      el.textContent=out;frame++;
+      if(frame>total){el.textContent=final;clearInterval(id);}
+    },42);
+  }
+  window.addEventListener('load',()=>decode(document.querySelector('#vtitle .glitch')));
+
+  // reveal on scroll
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.18});
+  document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4*0.08)+'s';io.observe(el);});
+
+  // progress ring
+  window.addEventListener('load',()=>{
+    const C=2*Math.PI*62;
+    const ring=document.getElementById('ringFill');
+    setTimeout(()=>{ring.style.transition='stroke-dashoffset 1.6s ease';ring.style.strokeDashoffset=C*(1-6/15);},400);
+    const bar=document.getElementById('progBar');
+    setTimeout(()=>{bar.style.width=(6/15*100)+'%';},600);
+  });
+
+  // finale fade-on-view
+  const fl=document.getElementById('voidLine');
+  const fo=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){setTimeout(()=>fl.classList.add('fade'),900);}});},{threshold:.5});
+  fo.observe(fl);
+</script>
+</body>
+</html>
