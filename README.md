@@ -26,7 +26,7 @@
 
 正式连载发布于起点中文网：
 
-- 《被抹掉的现场》书籍页：https://magev6.if.qidian.com/h5/share/book?channel=qidianapp&activityId=bookshare_02&tt=0&tc=0&nc=&nd=&spdt=14&spdid=109&ex1=1050121229&shareUserCode=CUqTPCWH&bookId=1050121229&ct=qdshare_bookdetail&_qdChId=10000353&_trace=qdshare_bookdetail&shareBookType=1&shareSource=2&dt=11&did=2
+- 《被抹掉的现场》书籍页：https://www.qidian.com/book/1050121229/
 
 ## 技术
 
